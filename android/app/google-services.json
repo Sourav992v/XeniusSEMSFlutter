@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "430503428245",
+    "firebase_url": "https://xeniasems-d9183.firebaseio.com",
+    "project_id": "xeniasems-d9183",
+    "storage_bucket": "xeniasems-d9183.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430503428245:android:2031f800966b0dc1",
+        "android_client_info": {
+          "package_name": "com.e.xeniusapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430503428245-rkat4irbhe0ogh0j3ce19f6j0ar7lvg5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.e.xeniusapp",
+            "certificate_hash": "e943c9c064c8c7db0ef7a5cc5ab4bb680b08404b"
+          }
+        },
+        {
+          "client_id": "430503428245-8a2et1gfsro38uiaiv9tfqsp3ja87aaa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcaJ-sWoWLpKEHvgZUsiylp0ZYhV9jNIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430503428245-8a2et1gfsro38uiaiv9tfqsp3ja87aaa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
