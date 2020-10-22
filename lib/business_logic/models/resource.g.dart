@@ -591,7 +591,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
       result
         ..add('daily_grid_unit')
         ..add(serializers.serialize(object.daily_grid_unit,
-            specifiedType: const FullType(String)));
+            specifiedType: const FullType(double)));
     }
     if (object.monthly_dg_unit != null) {
       result
@@ -639,7 +639,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
       result
         ..add('dr_cr')
         ..add(serializers.serialize(object.dr_cr,
-            specifiedType: const FullType(String)));
+            specifiedType: const FullType(double)));
     }
     if (object.fix_charges_monthly != null) {
       result
@@ -1050,7 +1050,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
           break;
         case 'daily_grid_unit':
           result.daily_grid_unit = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(double)) as double;
           break;
         case 'monthly_dg_unit':
           result.monthly_dg_unit = serializers.deserialize(value,
@@ -1082,7 +1082,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
           break;
         case 'dr_cr':
           result.dr_cr = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(double)) as double;
           break;
         case 'fix_charges_monthly':
           result.fix_charges_monthly = serializers.deserialize(value,
@@ -1311,7 +1311,7 @@ class _$Resource extends Resource {
   @override
   final double daily_dg_unit;
   @override
-  final String daily_grid_unit;
+  final double daily_grid_unit;
   @override
   final double monthly_dg_unit;
   @override
@@ -1327,7 +1327,7 @@ class _$Resource extends Resource {
   @override
   final double fix_charges;
   @override
-  final String dr_cr;
+  final double dr_cr;
   @override
   final double fix_charges_monthly;
   @override
@@ -2230,9 +2230,9 @@ class ResourceBuilder implements Builder<Resource, ResourceBuilder> {
   set daily_dg_unit(double daily_dg_unit) =>
       _$this._daily_dg_unit = daily_dg_unit;
 
-  String _daily_grid_unit;
-  String get daily_grid_unit => _$this._daily_grid_unit;
-  set daily_grid_unit(String daily_grid_unit) =>
+  double _daily_grid_unit;
+  double get daily_grid_unit => _$this._daily_grid_unit;
+  set daily_grid_unit(double daily_grid_unit) =>
       _$this._daily_grid_unit = daily_grid_unit;
 
   double _monthly_dg_unit;
@@ -2269,9 +2269,9 @@ class ResourceBuilder implements Builder<Resource, ResourceBuilder> {
   double get fix_charges => _$this._fix_charges;
   set fix_charges(double fix_charges) => _$this._fix_charges = fix_charges;
 
-  String _dr_cr;
-  String get dr_cr => _$this._dr_cr;
-  set dr_cr(String dr_cr) => _$this._dr_cr = dr_cr;
+  double _dr_cr;
+  double get dr_cr => _$this._dr_cr;
+  set dr_cr(double dr_cr) => _$this._dr_cr = dr_cr;
 
   double _fix_charges_monthly;
   double get fix_charges_monthly => _$this._fix_charges_monthly;

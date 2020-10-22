@@ -164,7 +164,7 @@ class _PiechartRecyclerViewState extends State<PiechartRecyclerView> {
     List<PieEntry> pieEntriesMonth = List();
 
     entries.add(PieEntry(
-      value: double.parse(gridValue),
+      value: gridValue,
       label: '$gridUnit',
     ));
     entries.add(PieEntry(

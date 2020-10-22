@@ -289,7 +289,7 @@ abstract class Resource implements Built<Resource, ResourceBuilder> {
   double get daily_dg_unit;
 
   @nullable
-  dynamic get daily_grid_unit;
+  double get daily_grid_unit;
 
   @nullable
   double get monthly_dg_unit;
@@ -313,7 +313,7 @@ abstract class Resource implements Built<Resource, ResourceBuilder> {
   double get fix_charges;
 
   @nullable
-  dynamic get dr_cr;
+  double get dr_cr;
 
   @nullable
   double get fix_charges_monthly;
