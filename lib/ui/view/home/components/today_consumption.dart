@@ -78,61 +78,86 @@ class TodayConsumptionCard extends StatelessWidget {
                 style: kLabelTextStyle,
               ),
             ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
-              ),
-              color: kTextBackgroundGrey,
-              margin: EdgeInsets.only(
-                  top: 12.0, bottom: 4.0, left: 16.0, right: 16.0),
-              child: ListTile(
-                leading: Text(
-                  'Grid',
-                  style: kSubLabelTextStyle,
-                ),
-                trailing: Text(
-                  '${loginResource.daily_grid_amount}',
-                  style: kValueTextStyle,
-                ),
-              ),
-            ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
-              ),
-              color: kTextBackgroundGrey,
-              margin: EdgeInsets.only(
-                  top: 2.0, bottom: 4.0, left: 16.0, right: 16.0),
-              child: ListTile(
-                leading: Text(
-                  'DG',
-                  style: kSubLabelTextStyle,
-                ),
-                trailing: Text(
-                  '${loginResource.daily_dg_amount}',
-                  style: kValueTextStyle,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Grid',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${loginResource.daily_grid_amount}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
                 ),
               ),
             ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
+            SizedBox(
+              height: 12.0,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'DG',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${loginResource.daily_dg_amount}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
-              color: kTextBackgroundGrey,
-              margin: EdgeInsets.only(
-                  top: 2.0, bottom: 4.0, left: 16.0, right: 16.0),
-              child: ListTile(
-                  leading: Text(
-                    'Fixed\nCharges',
-                    style: kSubLabelTextStyle,
-                  ),
-                  trailing: Text(
-                    '${loginResource.fix_charges}',
-                    style: kValueTextStyle,
-                  )),
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Fixed\nCharges',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${loginResource.fix_charges}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 12.0,
             ),
             totalBalance(loginResource),
             Padding(
@@ -153,21 +178,27 @@ Widget totalBalance(Resource loginResource) {
   double total = loginResource.daily_grid_amount +
       loginResource.daily_dg_amount +
       loginResource.fix_charges;
-  return Card(
-    elevation: 0.0,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24.0),
-    ),
-    color: kTextBackgroundGrey,
-    margin: EdgeInsets.only(top: 2.0, bottom: 8.0, left: 16.0, right: 16.0),
-    child: ListTile(
-      leading: Text(
-        'Total',
-        style: kSubLabelTextStyle,
-      ),
-      trailing: Text(
-        '$total',
-        style: kValueTextStyle,
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 24.0),
+    height: 48.0,
+    decoration: BoxDecoration(
+        color: kTextBackgroundGrey,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.all(Radius.circular(32.0))),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Total',
+            style: kSubLabelTextStyle,
+          ),
+          Text(
+            '$total',
+            style: kValueTextStyle,
+          ),
+        ],
       ),
     ),
   );

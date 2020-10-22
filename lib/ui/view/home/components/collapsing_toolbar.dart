@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
 import 'package:xeniusapp/ui/view/profile/user_profile_dialog.dart';
@@ -99,8 +100,11 @@ class CollapsingToolBar extends StatelessWidget {
           child: Container(
             height: 16.0,
             child: PopupMenuButton(
-              onSelected: (value) {
+              onSelected: (value) async {
                 if (value == 1) {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  await preferences.clear();
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       LoginView.id, (Route<dynamic> route) => false);
                 }

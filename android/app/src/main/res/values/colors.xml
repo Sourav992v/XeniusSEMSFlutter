@@ -1,0 +1,34 @@
+<resources>
+    <color name="colorPrimary">#2F577A</color>
+    <color name="colorPrimaryDark">#2A4E6E</color>
+    <color name="colorSecondary">#3C6890</color>
+    <color name="colorAccent">#3A678F</color>
+    <color name="colorAccentGreen">#4C8C8A</color>
+    <color name="colorAccentRed">#D03445</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorAccentTeal">#1DE9B6</color>
+    <color name="textColor">#37474F</color>
+    <color name="textColorHint">#CFD8DC</color>
+    <color name="viewColor">#CFD8DC</color>
+    <color name="colorRoyalGold">#C5B358</color>
+    <color name="colorPrimaryLight">#8BB2D4</color>
+    <color name="backgroundColor">#EBEFF3</color>
+    <color name="colorAmber">#FFC400</color>
+    <color name="colorOrange">#FF6E40</color>
+    <color name="colorBlueAccent">#3A5D7C</color>
+    <color name="colorPinkAccent">#F50057</color>
+    <color name="colorAccentYellow">#FFFF00</color>
+
+    <color name="line_selected">#E91E63</color>
+    <color name="line_focused">#3F51B5</color>
+    <color name="line_default">#C5CAE9</color>
+
+    <color name="text_selected">#b0003a</color>
+    <color name="text_focused">#E91E63</color>
+    <color name="text_default">#F8BBD0</color>
+    <color name="text_hint_default">#BDBDBD</color>
+    <color name="colorLightBlueAccent">#4A729E</color>
+    <color name="textHighlightColor">#4A6C8D</color>
+    <color name="textHintColor">#37474F</color>
+</resources>

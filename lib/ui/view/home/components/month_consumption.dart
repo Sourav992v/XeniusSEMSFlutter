@@ -62,114 +62,116 @@ class MonthConsumptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(
-              'Month Consumption',
-              style: kLabelTextStyle,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 24.0),
-            height: 48.0,
-            decoration: BoxDecoration(
-                color: kTextBackgroundGrey,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Grid',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${monthlyResource.monthly_grid_amount}',
-                    style: kValueTextStyle,
-                  ),
-                ],
+    return Expanded(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Month Consumption',
+                style: kLabelTextStyle,
               ),
             ),
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 24.0),
-            height: 48.0,
-            decoration: BoxDecoration(
-                color: kTextBackgroundGrey,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'DG',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${monthlyResource.monthly_dg_amount}',
-                    style: kValueTextStyle,
-                  ),
-                ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Grid',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${monthlyResource.monthly_grid_amount}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 24.0),
-            height: 48.0,
-            decoration: BoxDecoration(
-                color: kTextBackgroundGrey,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Fixed\nCharges',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${monthlyResource.fix_charges_monthly}',
-                    style: kValueTextStyle,
-                  ),
-                ],
+            SizedBox(
+              height: 12.0,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'DG',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${monthlyResource.monthly_dg_amount}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          monthlyTotalCharges(monthlyResource),
-          SizedBox(
-            height: 16.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              'Values in INR',
-              style: kSubValueTextStyle,
+            SizedBox(
+              height: 12.0,
             ),
-          ),
-        ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 24.0),
+              height: 48.0,
+              decoration: BoxDecoration(
+                  color: kTextBackgroundGrey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(32.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Fixed\nCharges',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${monthlyResource.fix_charges_monthly}',
+                      style: kValueTextStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 12.0,
+            ),
+            monthlyTotalCharges(monthlyResource),
+            SizedBox(
+              height: 16.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                'Values in INR',
+                style: kSubValueTextStyle,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

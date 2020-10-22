@@ -170,9 +170,21 @@ class _LoginHeaderState extends State<LoginHeader> {
                                   FocusScope.of(context).unfocus();
 
                                   if (_connectivityStatus ==
-                                          "ConnectivityResult.mobile" ||
-                                      _connectivityStatus ==
-                                          "ConnectivityResult.wifi") {
+                                          'ConnectivityResult.mobile' ||
+                                      _connectivityStatus !=
+                                          'ConnectivityResult.wifi') {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text(
+                                        'No Internet!',
+                                        style: TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12.0,
+                                        ),
+                                      ),
+                                      backgroundColor: kColorPrimaryDark,
+                                    ));
+                                  } else {
                                     SharedPreferences userPref =
                                         await SharedPreferences.getInstance();
                                     userPref.setString('login_id',
@@ -201,18 +213,6 @@ class _LoginHeaderState extends State<LoginHeader> {
                                         backgroundColor: kColorPrimaryDark,
                                       ));
                                     }
-                                  } else {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                        'No Internet!',
-                                        style: TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                      backgroundColor: kColorPrimaryDark,
-                                    ));
                                   }
                                 },
                                 color: kColorAccentRed,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:xeniusapp/business_logic/enum/viewstate.dart';
@@ -19,9 +20,18 @@ class HomeViewModel extends BaseViewModel {
     SharedPreferences userPref = await SharedPreferences.getInstance();
     String loginId = userPref.getString('login_id');
     String password = userPref.getString('password');
-    var resource = await _authService.getUser(loginId, password);
 
-    setState(ViewState.Idle);
-    return resource;
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        var resource = await _authService.getUser(loginId, password);
+        setState(ViewState.Idle);
+        return resource;
+      } else {
+        return null;
+      }
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 }

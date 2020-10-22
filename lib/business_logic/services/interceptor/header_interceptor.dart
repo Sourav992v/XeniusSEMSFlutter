@@ -13,7 +13,7 @@ class HeaderInterceptor implements RequestInterceptor {
     String loginId = userPref.getString('login_id');
     String password = userPref.getString('password');
 
-    return applyHeaders(
-        request, {'login_id': '$loginId', 'password': '$password'});
+    return applyHeaders(request,
+        {AUTH_HEADER: BEARER + ' login_id=$loginId&password=$password'});
   }
 }

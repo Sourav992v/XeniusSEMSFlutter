@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chopper/chopper.dart';
 import 'package:xeniusapp/business_logic/enum/viewstate.dart';
 
@@ -11,8 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'base_viewmodel.dart';
 
 class LoginViewModel extends BaseViewModel {
-  final AuthenticationService _authenticationService =
-      locator<AuthenticationService>();
+  final AuthenticationService _authService = locator<AuthenticationService>();
 
   String errorMessage;
   Future<Response<LoginResource>> login() async {
@@ -22,9 +23,17 @@ class LoginViewModel extends BaseViewModel {
 
     setState(ViewState.Busy);
 
-    var success = await _authenticationService.getUser(loginId, password);
-
-    setState(ViewState.Idle);
-    return success;
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        var resource = await _authService.getUser(loginId, password);
+        setState(ViewState.Idle);
+        return resource;
+      } else {
+        return null;
+      }
+    } on SocketException catch (_) {
+      return null;
+    }
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:http/io_client.dart';
 import 'package:xeniusapp/business_logic/models/daily_report_response.dart';
 
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
@@ -6,6 +9,8 @@ import 'package:chopper/chopper.dart';
 import 'package:xeniusapp/business_logic/models/monthly_report.dart/monthly_report_response.dart';
 import 'package:xeniusapp/business_logic/models/password_change/password_change_response.dart';
 import 'package:xeniusapp/business_logic/services/built_value_converter.dart';
+import 'package:xeniusapp/business_logic/services/interceptor/header_interceptor.dart';
+import 'package:http/io_client.dart' as http;
 
 part 'authentication_service.chopper.dart';
 
@@ -13,8 +18,14 @@ part 'authentication_service.chopper.dart';
 abstract class AuthenticationService extends ChopperService {
   static AuthenticationService create() {
     final client = ChopperClient(
+      client: http.IOClient(
+        HttpClient()..connectionTimeout = const Duration(seconds: 10),
+      ),
       baseUrl: 'http://myxenius.com/thirdparty/api',
-      interceptors: [HttpLoggingInterceptor()],
+      interceptors: [
+        HttpLoggingInterceptor(),
+        HeaderInterceptor(),
+      ],
       converter: BuiltValueConverter(),
       errorConverter: JsonConverter(),
       services: [
