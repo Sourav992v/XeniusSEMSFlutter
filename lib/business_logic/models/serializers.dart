@@ -1,6 +1,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
+import 'package:xeniusapp/business_logic/models/daily_report.dart';
+import 'package:xeniusapp/business_logic/models/daily_resource.dart';
 
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
 
@@ -13,6 +15,8 @@ part 'serializers.g.dart';
   PasswordChangeResponse,
   LoginResource,
   Resource,
+  DailyReport,
+  DailyResource
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

@@ -639,7 +639,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
       result
         ..add('dr_cr')
         ..add(serializers.serialize(object.dr_cr,
-            specifiedType: const FullType(double)));
+            specifiedType: const FullType(String)));
     }
     if (object.fix_charges_monthly != null) {
       result
@@ -1082,7 +1082,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
           break;
         case 'dr_cr':
           result.dr_cr = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double;
+              specifiedType: const FullType(String)) as String;
           break;
         case 'fix_charges_monthly':
           result.fix_charges_monthly = serializers.deserialize(value,
@@ -1327,7 +1327,7 @@ class _$Resource extends Resource {
   @override
   final double fix_charges;
   @override
-  final double dr_cr;
+  final String dr_cr;
   @override
   final double fix_charges_monthly;
   @override
@@ -2269,9 +2269,9 @@ class ResourceBuilder implements Builder<Resource, ResourceBuilder> {
   double get fix_charges => _$this._fix_charges;
   set fix_charges(double fix_charges) => _$this._fix_charges = fix_charges;
 
-  double _dr_cr;
-  double get dr_cr => _$this._dr_cr;
-  set dr_cr(double dr_cr) => _$this._dr_cr = dr_cr;
+  String _dr_cr;
+  String get dr_cr => _$this._dr_cr;
+  set dr_cr(String dr_cr) => _$this._dr_cr = dr_cr;
 
   double _fix_charges_monthly;
   double get fix_charges_monthly => _$this._fix_charges_monthly;

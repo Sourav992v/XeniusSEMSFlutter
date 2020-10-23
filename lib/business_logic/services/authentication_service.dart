@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:xeniusapp/business_logic/models/daily_report.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
 
 import 'package:chopper/chopper.dart';
@@ -36,6 +37,14 @@ abstract class AuthenticationService extends ChopperService {
   @Get(path: 'login')
   Future<Response<LoginResource>> getUser(
       @Query('login_id') String loginId, @Query('password') String password);
+
+  @Get(path: 'consumption/daily')
+  Future<Response<DailyReport>> getDailyReport(
+    @Query('login_id') String loginId,
+    @Query('password') String password,
+    @Query('year') int year,
+    @Query('month') int month,
+  );
 
   @Get(path: 'change_password')
   Future<Response<PasswordChangeResponse>> setPasswordChange(
