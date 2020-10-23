@@ -591,7 +591,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
       result
         ..add('daily_grid_unit')
         ..add(serializers.serialize(object.daily_grid_unit,
-            specifiedType: const FullType(double)));
+            specifiedType: const FullType(String)));
     }
     if (object.monthly_dg_unit != null) {
       result
@@ -1050,7 +1050,7 @@ class _$ResourceSerializer implements StructuredSerializer<Resource> {
           break;
         case 'daily_grid_unit':
           result.daily_grid_unit = serializers.deserialize(value,
-              specifiedType: const FullType(double)) as double;
+              specifiedType: const FullType(String)) as String;
           break;
         case 'monthly_dg_unit':
           result.monthly_dg_unit = serializers.deserialize(value,
@@ -1311,7 +1311,7 @@ class _$Resource extends Resource {
   @override
   final double daily_dg_unit;
   @override
-  final double daily_grid_unit;
+  final String daily_grid_unit;
   @override
   final double monthly_dg_unit;
   @override
@@ -2230,9 +2230,9 @@ class ResourceBuilder implements Builder<Resource, ResourceBuilder> {
   set daily_dg_unit(double daily_dg_unit) =>
       _$this._daily_dg_unit = daily_dg_unit;
 
-  double _daily_grid_unit;
-  double get daily_grid_unit => _$this._daily_grid_unit;
-  set daily_grid_unit(double daily_grid_unit) =>
+  String _daily_grid_unit;
+  String get daily_grid_unit => _$this._daily_grid_unit;
+  set daily_grid_unit(String daily_grid_unit) =>
       _$this._daily_grid_unit = daily_grid_unit;
 
   double _monthly_dg_unit;

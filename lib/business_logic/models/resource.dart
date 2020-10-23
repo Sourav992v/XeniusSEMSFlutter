@@ -289,7 +289,7 @@ abstract class Resource implements Built<Resource, ResourceBuilder> {
   double get daily_dg_unit;
 
   @nullable
-  double get daily_grid_unit;
+  String get daily_grid_unit;
 
   @nullable
   double get monthly_dg_unit;

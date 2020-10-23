@@ -46,40 +46,29 @@ class _DailyReportViewState extends State<DailyReportView> {
     final dgUnitColor = charts.ColorUtil.fromDartColor(kChartDGUnit);
     final dgAmountColor = charts.ColorUtil.fromDartColor(kChartDGAMount);
 
-    List<int> date = List();
-    if (date.length != null) {
-      for (int i = 1; i <= dailyReportResponse.resource.length; i++) {
-        date.add(i);
-      }
-    }
-
-    List<double> gridUnit = List();
-    List<double> dgUnit = List();
-    List<double> gridAmount = List();
-    List<double> dgAmount = List();
-
-    for (int i = 0; i < dailyReportResponse.resource.length; i++) {
-      gridUnit.add(double.parse(dailyReportResponse.resource[i].grid_unit));
-      dgUnit.add(double.parse(dailyReportResponse.resource[i].dg_unit));
-
-      gridAmount.add(dailyReportResponse.resource[i].grid_amt);
-      dgAmount.add(dailyReportResponse.resource[i].dg_amt);
-    }
-
     List<ChartData> chartDataGridUnit = List();
     List<ChartData> chartDataDgUnit = List();
     List<ChartData> chartDataGridAmt = List();
     List<ChartData> chartDataDgAmt = List();
 
-    for (int i = date.length - 1; i > 0; i--) {
-      chartDataGridUnit
-          .add(ChartData(DateTime(year, month, date[i]), gridUnit[i]));
-      chartDataDgUnit.add(ChartData(DateTime(year, month, date[i]), dgUnit[i]));
+    for (int i = dailyReportResponse.resource.length - 1; i >= 0; i--) {
+      chartDataGridUnit.add(ChartData(
+          DateTime(year, month,
+              int.parse(dailyReportResponse.resource[i].date.split('-')[2])),
+          double.parse(dailyReportResponse.resource[i].grid_unit)));
+      chartDataDgUnit.add(ChartData(
+          DateTime(year, month,
+              int.parse(dailyReportResponse.resource[i].date.split('-')[2])),
+          double.parse(dailyReportResponse.resource[i].dg_unit)));
 
-      chartDataGridAmt
-          .add(ChartData(DateTime(year, month, date[i]), gridAmount[i]));
-      chartDataDgAmt
-          .add(ChartData(DateTime(year, month, date[i]), dgAmount[i]));
+      chartDataGridAmt.add(ChartData(
+          DateTime(year, month,
+              int.parse(dailyReportResponse.resource[i].date.split('-')[2])),
+          dailyReportResponse.resource[i].grid_amt));
+      chartDataDgAmt.add(ChartData(
+          DateTime(year, month,
+              int.parse(dailyReportResponse.resource[i].date.split('-')[2])),
+          dailyReportResponse.resource[i].dg_amt));
     }
 
     if (index == 0) {
@@ -196,110 +185,101 @@ class _DailyReportViewState extends State<DailyReportView> {
           centerTitle: true,
         ),
         body: BaseView<DailyReportViewModel>(builder: (context, value, child) {
-          if (dailyReportResponse != null) {
-            return Stack(children: [
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
-                child: SizedBox(
-                  height: double.infinity,
-                  child: ListView.builder(
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        if (dailyReportResponse.resource.length != 0) {
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0)),
-                            margin: EdgeInsets.only(
-                                top: 16.0, bottom: 16.0, left: 4.0, right: 4.0),
-                            color: Colors.white,
-                            shadowColor: Colors.white54,
-                            elevation: 16.0,
-                            child: ListTile(
-                              title: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 16.0, bottom: 0),
-                                child: Center(
-                                    child: Text(
-                                  '$dateString'.split('-')[1],
-                                  style: kLabelTextStyle,
-                                )),
-                              ),
-                              subtitle: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Container(
-                                    width: 500,
-                                    height: 300,
-                                    child: charts.TimeSeriesChart(
-                                      _createSampleData(index),
-                                      animate: true,
-                                      defaultRenderer:
-                                          charts.LineRendererConfig(
-                                        includePoints: true,
-                                        includeArea: true,
-                                        stacked: true,
-                                        includeLine: true,
-                                      ),
-                                      behaviors: [
-                                        charts.SlidingViewport(),
-                                        charts.PanAndZoomBehavior(),
-                                        charts.LinePointHighlighter(
-                                            showHorizontalFollowLine: charts
-                                                .LinePointHighlighterFollowLineType
-                                                .all,
-                                            showVerticalFollowLine: charts
-                                                .LinePointHighlighterFollowLineType
-                                                .nearest),
-                                        charts.SelectNearest(
-                                            eventTrigger: charts
-                                                .SelectionTrigger.tapAndDrag),
-                                        charts.SeriesLegend(
-                                          position:
-                                              charts.BehaviorPosition.bottom,
-                                          desiredMaxRows: 2,
-                                          horizontalFirst: false,
-                                          cellPadding: new EdgeInsets.only(
-                                              right: 4.0,
-                                              bottom: 4.0,
-                                              left: 96.0,
-                                              top: 4.0),
-                                          showMeasures: true,
-                                          outsideJustification: charts
-                                              .OutsideJustification
-                                              .middleDrawArea,
-                                          measureFormatter: (num value) {
-                                            return value == null
-                                                ? '-'
-                                                : '$value';
-                                          },
-                                        ),
-                                      ],
-                                      domainAxis: new charts.DateTimeAxisSpec(
-                                          showAxisLine: true,
-                                          tickFormatterSpec: new charts
-                                                  .AutoDateTimeTickFormatterSpec(
-                                              day: new charts.TimeFormatterSpec(
-                                            format: 'dd MMM',
-                                            transitionFormat: 'dd MMM',
-                                          ))),
-                                    )),
-                              ),
+          return Stack(children: [
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+              child: SizedBox(
+                height: double.infinity,
+                child: ListView.builder(
+                    itemCount: 2,
+                    itemBuilder: (context, index) {
+                      if (dailyReportResponse != null &&
+                          dailyReportResponse.resource != null) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          margin: EdgeInsets.only(
+                              top: 16.0, bottom: 16.0, left: 4.0, right: 4.0),
+                          color: Colors.white,
+                          shadowColor: Colors.white54,
+                          elevation: 16.0,
+                          child: ListTile(
+                            title: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, bottom: 0),
+                              child: Center(
+                                  child: Text(
+                                '$dateString'.split('-')[1],
+                                style: kLabelTextStyle,
+                              )),
                             ),
-                          );
-                        } else
-                          return Container(
-                            child: Center(child: Text('Loading..')),
-                          );
-                      }),
-                ),
+                            subtitle: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Container(
+                                  width: 500,
+                                  height: 300,
+                                  child: charts.TimeSeriesChart(
+                                    _createSampleData(index),
+                                    animate: true,
+                                    defaultRenderer: charts.LineRendererConfig(
+                                      includePoints: true,
+                                      includeArea: true,
+                                      stacked: false,
+                                      includeLine: true,
+                                    ),
+                                    behaviors: [
+                                      charts.SlidingViewport(),
+                                      charts.PanAndZoomBehavior(),
+                                      charts.LinePointHighlighter(
+                                          showHorizontalFollowLine: charts
+                                              .LinePointHighlighterFollowLineType
+                                              .all,
+                                          showVerticalFollowLine: charts
+                                              .LinePointHighlighterFollowLineType
+                                              .nearest),
+                                      charts.SelectNearest(
+                                          eventTrigger: charts
+                                              .SelectionTrigger.tapAndDrag),
+                                      charts.SeriesLegend(
+                                        position:
+                                            charts.BehaviorPosition.bottom,
+                                        desiredMaxRows: 2,
+                                        horizontalFirst: false,
+                                        cellPadding: new EdgeInsets.only(
+                                            right: 4.0,
+                                            bottom: 4.0,
+                                            left: 96.0,
+                                            top: 4.0),
+                                        showMeasures: true,
+                                        outsideJustification: charts
+                                            .OutsideJustification
+                                            .middleDrawArea,
+                                        measureFormatter: (num value) {
+                                          return value == null ? '-' : '$value';
+                                        },
+                                      ),
+                                    ],
+                                    domainAxis: new charts.DateTimeAxisSpec(
+                                        showAxisLine: true,
+                                        tickFormatterSpec: new charts
+                                                .AutoDateTimeTickFormatterSpec(
+                                            day: new charts.TimeFormatterSpec(
+                                          format: 'dd MMM',
+                                          transitionFormat: 'dd MMM',
+                                        ))),
+                                  )),
+                            ),
+                          ),
+                        );
+                      } else
+                        return Container(
+                            child: Center(child: Text('Loading..')));
+                    }),
               ),
-              Positioned(
-                  top: 25.0, right: 25.0, child: datePickerDaily(context)),
-            ]);
-          } else
-            return Container(
-              child: Center(child: Text('Loading..')),
-            );
+            ),
+            Positioned(top: 25.0, right: 25.0, child: datePickerDaily(context)),
+          ]);
         }));
   }
 
