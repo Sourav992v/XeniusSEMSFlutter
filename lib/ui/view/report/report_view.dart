@@ -5,6 +5,7 @@ import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
 
 import 'daily_report_view.dart';
+import 'monthly_report/monthly_report_view.dart';
 
 class ReportView extends StatefulWidget {
   static const String id = 'ReportView';
@@ -96,7 +97,7 @@ class ReportViewCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.pushNamed(context, ' MonthlyReportView.id');
+                    Navigator.pushNamed(context, MonthlyReportView.id);
                   },
                 )),
           ),

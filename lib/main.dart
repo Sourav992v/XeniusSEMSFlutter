@@ -11,6 +11,7 @@ import 'package:xeniusapp/ui/view/fortgot_password/reset_password_view.dart';
 import 'package:xeniusapp/ui/view/home/home.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
 import 'package:xeniusapp/ui/view/report/daily_report_view.dart';
+import 'package:xeniusapp/ui/view/report/monthly_report/monthly_report_view.dart';
 
 import 'package:xeniusapp/ui/view/util/notification_settings.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -119,6 +120,7 @@ class _XeniusAppState extends State<XeniusApp> {
           Home.id: (context) => Home(),
           LoginView.id: (context) => LoginView(),
           DailyReportView.id: (context) => DailyReportView(),
+          MonthlyReportView.id: (context) => MonthlyReportView(),
           NotificationSettings.id: (context) => NotificationSettings(),
           PasswordInput.id: (context) => PasswordInput(),
           PasswordResetOtp.id: (context) => PasswordResetOtp(),

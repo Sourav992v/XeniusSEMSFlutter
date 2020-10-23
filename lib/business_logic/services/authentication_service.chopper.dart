@@ -42,6 +42,19 @@ class _$AuthenticationService extends AuthenticationService {
   }
 
   @override
+  Future<Response<MonthlyReport>> getMonthlyReport(
+      String loginId, String password, int year) {
+    final $url = 'consumption/monthly';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password,
+      'year': year
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<MonthlyReport, MonthlyReport>($request);
+  }
+
+  @override
   Future<Response<PasswordChangeResponse>> setPasswordChange(
       String loginId, String password, String newPassword) {
     final $url = 'change_password';
