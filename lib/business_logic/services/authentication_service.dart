@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
+import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_response.dart';
 import 'package:xeniusapp/business_logic/models/daily_report.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
 
@@ -61,6 +62,12 @@ abstract class AuthenticationService extends ChopperService {
     @Query('password') String password,
     @Query('year') int year,
     @Query('month') int month,
+  );
+
+  @Get(path: 'current_applicable_rates')
+  Future<Response<CurrentApplicableResponse>> getCurrentTariff(
+    @Query('login_id') String loginId,
+    @Query('password') String password,
   );
 
   @Get(path: 'change_password')

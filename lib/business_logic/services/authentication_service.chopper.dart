@@ -69,6 +69,19 @@ class _$AuthenticationService extends AuthenticationService {
   }
 
   @override
+  Future<Response<CurrentApplicableResponse>> getCurrentTariff(
+      String loginId, String password) {
+    final $url = 'current_applicable_rates';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client
+        .send<CurrentApplicableResponse, CurrentApplicableResponse>($request);
+  }
+
+  @override
   Future<Response<PasswordChangeResponse>> setPasswordChange(
       String loginId, String password, String newPassword) {
     final $url = 'change_password';

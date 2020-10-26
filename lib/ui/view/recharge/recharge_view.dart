@@ -29,31 +29,31 @@ class _RechargeViewState extends State<RechargeView>
     return Container(
         child: ListView(
       children: [
-        Container(
-          decoration: BoxDecoration(color: kColorPrimary),
-          child: TabBar(
-            controller: _controller,
-            tabs: [
-              Tab(
-                text: 'Online',
-              ),
-              Tab(text: 'Coupon'),
-            ],
-            indicatorColor: kColorAccentRed,
-          ),
-        ),
-        Container(
-          height: 128.0,
-          child: TabBarView(
-            controller: _controller,
-            children: <Widget>[
-              Card(color: Colors.white, child: rechargeTab()),
-              Card(
-                child: rechargeTabCoupon(),
-              ),
-            ],
-          ),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(color: kColorPrimary),
+        //   child: TabBar(
+        //     controller: _controller,
+        //     tabs: [
+        //       Tab(
+        //         text: 'Online',
+        //       ),
+        //       Tab(text: 'Coupon'),
+        //     ],
+        //     indicatorColor: kColorAccentRed,
+        //   ),
+        // ),
+        // Container(
+        //   height: 128.0,
+        //   child: TabBarView(
+        //     controller: _controller,
+        //     children: <Widget>[
+        //       Card(color: Colors.white, child: rechargeTab()),
+        //       Card(
+        //         child: rechargeTabCoupon(),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -106,36 +106,78 @@ class _RechargeViewState extends State<RechargeView>
                     ),
                   ],
                 ),
+                SizedBox(height: 16.0),
+                Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Recharge',
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: kColorAccentRed,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        RechargeWidget(
+                          rechargeType: 'Coupon',
+                          image: AssetImage('assets/images/ic_coupon_icon.png'),
+                        ),
+                        RechargeWidget(
+                          rechargeType: 'HDFC',
+                          image: AssetImage('assets/images/ic_hdfc.png'),
+                        ),
+                        RechargeWidget(
+                          rechargeType: 'Paytm',
+                          image: AssetImage('assets/images/ic_paytm.png'),
+                        ),
+                        RechargeWidget(
+                          rechargeType: 'Mobikwik',
+                          image: AssetImage('assets/images/ic_mobikwik.png'),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
         Container(
           height: 348,
-          margin: EdgeInsets.only(bottom: 24.0),
           child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
               child: Padding(
-            padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Recharge History',
-                    style: kLabelTextStyle,
-                    textAlign: TextAlign.center,
-                  ),
+                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Recharge History',
+                        style: kLabelTextStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Container(
+                      height: 320.0,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: RechargeHistoryView(),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  height: 320.0,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: RechargeHistoryView(),
-                  ),
-                ),
-              ],
-            ),
-          )),
+              )),
         )
       ],
     ));
@@ -360,6 +402,46 @@ class _RechargeViewState extends State<RechargeView>
         width: 72.0,
         height: 72.0,
       ),
+    );
+  }
+}
+
+class RechargeWidget extends StatelessWidget {
+  const RechargeWidget({
+    Key key,
+    this.rechargeType,
+    this.image,
+  }) : super(key: key);
+
+  final String rechargeType;
+  final AssetImage image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: 48.0,
+          width: 48.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: kColorPrimaryDark, width: 2.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              radius: 24,
+              backgroundImage: image,
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        ),
+        Text(
+          rechargeType,
+          textAlign: TextAlign.start,
+        ),
+      ],
     );
   }
 }

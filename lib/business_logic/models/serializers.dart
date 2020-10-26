@@ -3,6 +3,8 @@ import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
 import 'package:xeniusapp/business_logic/models/comparative/comparative_resource.dart';
+import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_resource.dart';
+import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_response.dart';
 import 'package:xeniusapp/business_logic/models/daily_report.dart';
 import 'package:xeniusapp/business_logic/models/daily_resource.dart';
 
@@ -24,7 +26,9 @@ part 'serializers.g.dart';
   MonthlyReport,
   MonthlyReport,
   ComparativeReport,
-  ComparativeResource
+  ComparativeResource,
+  CurrentApplicableResponse,
+  CurrentApplicableResource
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

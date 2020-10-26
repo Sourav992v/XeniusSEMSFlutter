@@ -9,6 +9,8 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ComparativeReport.serializer)
       ..add(ComparativeResource.serializer)
+      ..add(CurrentApplicableResource.serializer)
+      ..add(CurrentApplicableResponse.serializer)
       ..add(DailyReport.serializer)
       ..add(DailyResource.serializer)
       ..add(LoginResource.serializer)
@@ -16,6 +18,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(MonthlyResource.serializer)
       ..add(PasswordChangeResponse.serializer)
       ..add(Resource.serializer)
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(CurrentApplicableResource)]),
+          () => new ListBuilder<CurrentApplicableResource>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DailyResource)]),
           () => new ListBuilder<DailyResource>())
