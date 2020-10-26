@@ -6,7 +6,7 @@ part 'monthly_resource.g.dart';
 abstract class MonthlyResource
     implements Built<MonthlyResource, MonthlyResourceBuilder> {
   @nullable
-  String get date;
+  String get month;
   @nullable
   String get dg_unit;
   @nullable

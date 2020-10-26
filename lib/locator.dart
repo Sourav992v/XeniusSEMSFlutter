@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:xeniusapp/business_logic/viewmodels/comparative_report_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/daily_report_viewmodel.dart';
 
 import 'business_logic/services/authentication_service.dart';
@@ -15,4 +16,5 @@ void setupLoactor() {
   locator.registerFactory(() => HomeViewModel());
   locator.registerFactory(() => DailyReportViewModel());
   locator.registerFactory(() => MonthlyReportViewModel());
+  locator.registerFactory(() => ComparativeReportViewModel());
 }

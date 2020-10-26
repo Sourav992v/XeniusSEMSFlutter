@@ -7,6 +7,8 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(ComparativeReport.serializer)
+      ..add(ComparativeResource.serializer)
       ..add(DailyReport.serializer)
       ..add(DailyResource.serializer)
       ..add(LoginResource.serializer)

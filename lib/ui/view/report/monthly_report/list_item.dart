@@ -48,7 +48,7 @@ class HeadingItem implements ListItem {
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Text(
-          '${monthlyReport.resource[index].date}',
+          '${monthlyReport.resource[index].month}',
           style: Theme.of(context).textTheme.bodyText1,
         ),
       ),

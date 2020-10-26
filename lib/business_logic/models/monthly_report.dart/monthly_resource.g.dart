@@ -20,10 +20,10 @@ class _$MonthlyResourceSerializer
   Iterable<Object> serialize(Serializers serializers, MonthlyResource object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[];
-    if (object.date != null) {
+    if (object.month != null) {
       result
-        ..add('date')
-        ..add(serializers.serialize(object.date,
+        ..add('month')
+        ..add(serializers.serialize(object.month,
             specifiedType: const FullType(String)));
     }
     if (object.dg_unit != null) {
@@ -65,8 +65,8 @@ class _$MonthlyResourceSerializer
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'date':
-          result.date = serializers.deserialize(value,
+        case 'month':
+          result.month = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'dg_unit':
@@ -94,7 +94,7 @@ class _$MonthlyResourceSerializer
 
 class _$MonthlyResource extends MonthlyResource {
   @override
-  final String date;
+  final String month;
   @override
   final String dg_unit;
   @override
@@ -108,7 +108,7 @@ class _$MonthlyResource extends MonthlyResource {
       (new MonthlyResourceBuilder()..update(updates)).build();
 
   _$MonthlyResource._(
-      {this.date, this.dg_unit, this.grid_unit, this.dg_amt, this.grid_amt})
+      {this.month, this.dg_unit, this.grid_unit, this.dg_amt, this.grid_amt})
       : super._();
 
   @override
@@ -123,7 +123,7 @@ class _$MonthlyResource extends MonthlyResource {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is MonthlyResource &&
-        date == other.date &&
+        month == other.month &&
         dg_unit == other.dg_unit &&
         grid_unit == other.grid_unit &&
         dg_amt == other.dg_amt &&
@@ -134,7 +134,7 @@ class _$MonthlyResource extends MonthlyResource {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, date.hashCode), dg_unit.hashCode),
+            $jc($jc($jc(0, month.hashCode), dg_unit.hashCode),
                 grid_unit.hashCode),
             dg_amt.hashCode),
         grid_amt.hashCode));
@@ -143,7 +143,7 @@ class _$MonthlyResource extends MonthlyResource {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('MonthlyResource')
-          ..add('date', date)
+          ..add('month', month)
           ..add('dg_unit', dg_unit)
           ..add('grid_unit', grid_unit)
           ..add('dg_amt', dg_amt)
@@ -156,9 +156,9 @@ class MonthlyResourceBuilder
     implements Builder<MonthlyResource, MonthlyResourceBuilder> {
   _$MonthlyResource _$v;
 
-  String _date;
-  String get date => _$this._date;
-  set date(String date) => _$this._date = date;
+  String _month;
+  String get month => _$this._month;
+  set month(String month) => _$this._month = month;
 
   String _dg_unit;
   String get dg_unit => _$this._dg_unit;
@@ -180,7 +180,7 @@ class MonthlyResourceBuilder
 
   MonthlyResourceBuilder get _$this {
     if (_$v != null) {
-      _date = _$v.date;
+      _month = _$v.month;
       _dg_unit = _$v.dg_unit;
       _grid_unit = _$v.grid_unit;
       _dg_amt = _$v.dg_amt;
@@ -207,7 +207,7 @@ class MonthlyResourceBuilder
   _$MonthlyResource build() {
     final _$result = _$v ??
         new _$MonthlyResource._(
-            date: date,
+            month: month,
             dg_unit: dg_unit,
             grid_unit: grid_unit,
             dg_amt: dg_amt,

@@ -4,6 +4,7 @@ import 'package:xeniusapp/business_logic/viewmodels/home_viewmodel.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
 
+import 'comparative_report_view.dart';
 import 'daily_report_view.dart';
 import 'monthly_report/monthly_report_view.dart';
 
@@ -121,7 +122,7 @@ class ReportViewCard extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, 'ComparativeReportView.id');
+                  Navigator.pushNamed(context, ComparativeReportView.id);
                 },
               ),
             ),

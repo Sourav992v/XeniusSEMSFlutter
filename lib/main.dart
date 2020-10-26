@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
 import 'package:xeniusapp/splash_screen.dart';
@@ -10,6 +11,7 @@ import 'package:xeniusapp/ui/view/fortgot_password/reset_password_view.dart';
 
 import 'package:xeniusapp/ui/view/home/home.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
+import 'package:xeniusapp/ui/view/report/comparative_report_view.dart';
 import 'package:xeniusapp/ui/view/report/daily_report_view.dart';
 import 'package:xeniusapp/ui/view/report/monthly_report/monthly_report_view.dart';
 
@@ -121,6 +123,7 @@ class _XeniusAppState extends State<XeniusApp> {
           LoginView.id: (context) => LoginView(),
           DailyReportView.id: (context) => DailyReportView(),
           MonthlyReportView.id: (context) => MonthlyReportView(),
+          ComparativeReportView.id: (context) => ComparativeReportView(),
           NotificationSettings.id: (context) => NotificationSettings(),
           PasswordInput.id: (context) => PasswordInput(),
           PasswordResetOtp.id: (context) => PasswordResetOtp(),

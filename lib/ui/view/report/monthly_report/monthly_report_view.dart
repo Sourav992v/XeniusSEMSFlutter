@@ -178,5 +178,3 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
     );
   }
 }
-
-class MonthlyResponse {}
