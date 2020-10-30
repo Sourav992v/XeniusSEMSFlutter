@@ -94,4 +94,27 @@ class _$AuthenticationService extends AuthenticationService {
     return client
         .send<PasswordChangeResponse, PasswordChangeResponse>($request);
   }
+
+  @override
+  Future<Response<NoticeResponse>> getNotice(String loginId, String password) {
+    final $url = 'notice';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<NoticeResponse, NoticeResponse>($request);
+  }
+
+  @override
+  Future<Response<MessageResponse>> getMessages(
+      String loginId, String password) {
+    final $url = 'xenius_messages';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<MessageResponse, MessageResponse>($request);
+  }
 }

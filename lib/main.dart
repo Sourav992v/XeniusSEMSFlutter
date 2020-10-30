@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:provider/provider.dart';
 import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
@@ -18,6 +19,9 @@ import 'package:xeniusapp/ui/view/report/monthly_report/monthly_report_view.dart
 import 'package:xeniusapp/ui/view/util/notification_settings.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'business_logic/models/login_resource.dart';
+import 'business_logic/services/login_service.dart';
 
 void main() {
   setupLoactor();

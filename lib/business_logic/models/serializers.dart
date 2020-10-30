@@ -9,8 +9,12 @@ import 'package:xeniusapp/business_logic/models/daily_report.dart';
 import 'package:xeniusapp/business_logic/models/daily_resource.dart';
 
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
+import 'package:xeniusapp/business_logic/models/message_response/message_resource.dart';
+import 'package:xeniusapp/business_logic/models/message_response/message_response.dart';
 import 'package:xeniusapp/business_logic/models/monthly_report.dart/monthly_report.dart';
 import 'package:xeniusapp/business_logic/models/monthly_report.dart/monthly_resource.dart';
+import 'package:xeniusapp/business_logic/models/notice_response/notice_resource.dart';
+import 'package:xeniusapp/business_logic/models/notice_response/notice_response.dart';
 
 import 'package:xeniusapp/business_logic/models/password_change/password_change_response.dart';
 import 'package:xeniusapp/business_logic/models/resource.dart';
@@ -28,7 +32,11 @@ part 'serializers.g.dart';
   ComparativeReport,
   ComparativeResource,
   CurrentApplicableResponse,
-  CurrentApplicableResource
+  CurrentApplicableResource,
+  NoticeResponse,
+  NoticeResource,
+  MessageResponse,
+  MessageResource
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

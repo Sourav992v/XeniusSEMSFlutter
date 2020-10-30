@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xeniusapp/business_logic/enum/viewstate.dart';
+import 'package:xeniusapp/business_logic/viewmodels/notice_viewmodel.dart';
 import 'package:xeniusapp/constants.dart';
+import 'package:xeniusapp/ui/view/base_view.dart';
 
 class NoticeDialog extends StatefulWidget {
   @override
@@ -35,23 +38,28 @@ class _NoticeDialogState extends State<NoticeDialog> {
 class Lists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        itemCount: 100,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 16,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 16.0,
+    return BaseView<NoticeViewModel>(
+      onModelReady: (model) => model.getNotice(),
+      builder: (context, value, child) => value.state == ViewState.Busy
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          itemCount: value.noticeResponse.count + 1,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              elevation: 16,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
+                child: value.noticeResponse.count != 0 ?Text(
+                  'Notice',
+                  style: kLabelTextStyle,
+                ):Center(child: Text('Empty')),
               ),
-              child: Text(
-                '$index',
-                style: kLabelTextStyle,
-              ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 }
