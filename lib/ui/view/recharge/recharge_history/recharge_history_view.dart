@@ -9,7 +9,6 @@ import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/ui/view/base_view.dart';
 
 
-
 class RechargeHistoryView extends StatefulWidget {
   @override
   _RechargeHistoryViewState createState() => _RechargeHistoryViewState();
@@ -21,12 +20,13 @@ class _RechargeHistoryViewState extends State<RechargeHistoryView> {
     return BaseView<RechargeHistoryViewModel>(
         onModelReady:(model) => model.getRechargeHistory(),
         builder: (context, value, child) => value.state == ViewState.Busy ?
-        Center(child: SpinKitCircle(color: kColorPrimary,))
+        Center(child: SpinKitFadingCircle(color: kColorPrimary,size: 24.0,))
         :Container(
       margin: EdgeInsets.only(bottom: 24),
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: value.rechargeHistoryResponse.resource.length,
+          itemCount: value.rechargeHistoryResponse != null ?
+          value.rechargeHistoryResponse.resource.length:0,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.only(left: 8.0,right: 8.0),

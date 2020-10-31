@@ -56,17 +56,81 @@ class _OverviewBalanceState extends State<OverviewBalance> {
                   color: Colors.white24,
                   elevation: 5.0,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      GridBalanceCard(resource),
-                      SizedBox(
-                        height: 8.0,
+                      BalanceCard(resource),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GridBalanceCard(resource),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            DGBalanceCard(resource),
+                          ],
+                        ),
                       ),
-                      DGBalanceCard(resource),
                     ],
                   ),
                 ),
         );
       },
+    );
+  }
+}
+
+class BalanceCard extends StatelessWidget {
+  BalanceCard(this.resource);
+  final Resource resource;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      margin: EdgeInsets.only(top: 0.0, bottom: 4.0),
+      color: kColorAccentRed,
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+                Text(
+                  'Available Balance',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.normal),
+                ),
+                SizedBox(height: 4.0,),
+                Text(
+                  'INR ${resource.balance_amount}',
+                  style: TextStyle(color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold),
+                ),
+            SizedBox(height: 8.0,),
+
+            Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Updated on:',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.normal),
+                  ),
+
+                  Text(
+                    '${resource.last_reading_updated}',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+
+          ],
+        ),
+      ),
     );
   }
 }
@@ -82,11 +146,11 @@ class GridBalanceCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        margin: EdgeInsets.only(top: 0.0, bottom: 4.0, left: 0.0, right: 0.0),
+        margin: EdgeInsets.only(top: 0.0, bottom: 4.0, left: 0.0, right: 4.0),
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
               Row(
@@ -94,81 +158,82 @@ class GridBalanceCard extends StatelessWidget {
                 children: [
                   Text(
                     'Grid',
-                    style: kLabelTextStyle,
+                    style: TextStyle(
+                      color: kColorPrimary,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   resource.energy_source == 'GRID'
                       ? SpinKitDoubleBounce(
                           color: kColorPrimary,
                           size: 24.0,
                         )
-                      : Text(''),
+                      : Container(),
                 ],
+              ),
+              SizedBox(height: 12.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    resource.energy_source == 'GRID'
+                        ? Text(
+                            'Start Time',
+                            style: kSubLabelTextStyle,
+                          )
+                        : Text(
+                            'Off',
+                            style: kSubLabelTextStyle,
+                          ),
+                    resource.energy_source == 'GRID'
+                        ? Text(
+                            '${resource.last_reading_updated}',
+                            style: kSubValueTextStyle,
+                          )
+                        : Text(
+                            ''
+                          ),
+                  ],
+                ),
               ),
               SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  resource.energy_source == 'GRID'
-                      ? Text(
-                          'Start Time',
-                          style: kSubLabelTextStyle,
-                        )
-                      : Text(
-                          'Off',
-                          style: kSubLabelTextStyle,
-                        ),
-                  resource.energy_source == 'GRID'
-                      ? Text(
-                          '${resource.last_reading_updated}',
-                          style: kSubValueTextStyle,
-                        )
-                      : Text(
-                          '',
-                          style: kSubLabelTextStyle,
-                        ),
-                ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Consumption',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${resource.grid_reading} ${resource.reading_unit}',
+                      style: kSubValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Consumption',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${resource.grid_reading} ${resource.reading_unit}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Balance',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    'INR ${resource.balance_amount}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Sanctioned Load',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${resource.grid_sanctioned_load} ${resource.load_unit}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sanctioned Load',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${resource.grid_sanctioned_load} ${resource.load_unit}',
+                      style: kSubValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -193,7 +258,7 @@ class DGBalanceCard extends StatelessWidget {
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
               Row(
@@ -201,7 +266,11 @@ class DGBalanceCard extends StatelessWidget {
                 children: [
                   Text(
                     'DG',
-                    style: kLabelTextStyle,
+                    style: TextStyle(
+                      color: kColorAccentRed,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   resource.energy_source == 'DG'
                       ? SpinKitDoubleBounce(
@@ -211,65 +280,63 @@ class DGBalanceCard extends StatelessWidget {
                       : Text(''),
                 ],
               ),
+              SizedBox(height: 12.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    resource.energy_source == 'DG'
+                        ? Text(
+                            'Start Time',
+                            style: kSubLabelTextStyle,
+                          )
+                        : Text('Off', style: kSubLabelTextStyle),
+                    resource.energy_source == 'DG'
+                        ? Text(
+                            '${resource.dg_last_reading_updated}',
+                            style: kSubValueTextStyle,
+                          )
+                        : Text(''),
+                  ],
+                ),
+              ),
               SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  resource.energy_source == 'DG'
-                      ? Text(
-                          'Start Time',
-                          style: kSubLabelTextStyle,
-                        )
-                      : Text('Off', style: kSubLabelTextStyle),
-                  resource.energy_source == 'DG'
-                      ? Text(
-                          '${resource.dg_last_reading_updated}',
-                          style: kSubValueTextStyle,
-                        )
-                      : Text(''),
-                ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Consumption',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${resource.dg_reading} ${resource.reading_unit}',
+                      style: kSubValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Consumption',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${resource.dg_reading} ${resource.reading_unit}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Balance',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    'INR ${resource.dg_balance_amount}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Sanctioned Load',
-                    style: kSubLabelTextStyle,
-                  ),
-                  Text(
-                    '${resource.dg_sanctioned_load} ${resource.load_unit}',
-                    style: kSubValueTextStyle,
-                  ),
-                ],
+              SizedBox(height: 8.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Sanctioned Load',
+                      style: kSubLabelTextStyle,
+                    ),
+                    Text(
+                      '${resource.dg_sanctioned_load} ${resource.load_unit}',
+                      style: kSubValueTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

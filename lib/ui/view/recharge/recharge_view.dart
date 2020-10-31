@@ -83,7 +83,11 @@ class _RechargeViewState extends State<RechargeView>
 
                     loginResource != null ? Text(
                       'INR ${loginResource.resource.balance_amount}',
-                      style: kLabelTextStyle,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: kColorAccentRed,
+                      ),
                     ): Text(''),
                   ],
                 ),
@@ -191,7 +195,9 @@ class _RechargeViewState extends State<RechargeView>
                       padding: const EdgeInsets.only(top:24.0),
                       child: Text(
                         'Recharge History',
-                        style: kLabelTextStyle,
+                        style: TextStyle(fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: kColorPrimary),
                         textAlign: TextAlign.center,
                       ),
                     ),

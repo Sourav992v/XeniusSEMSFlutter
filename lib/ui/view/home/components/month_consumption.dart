@@ -75,7 +75,8 @@ class MonthConsumptionCard extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Text(
                 'Month Consumption',
-                style: kLabelTextStyle,
+                style: TextStyle(fontSize: 16.0,
+                fontWeight: FontWeight.bold,color: kTextColor),
               ),
             ),
             Container(

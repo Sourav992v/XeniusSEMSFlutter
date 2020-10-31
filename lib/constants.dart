@@ -15,16 +15,16 @@ const kChartDGUnit = Color(0xFFBE3142);
 const kChartDGAMount = Color(0xFFFF6378);
 
 const kLabelTextStyle = TextStyle(
-    fontSize: 16.0,
-    fontFamily: 'Lato',
-    color: kTextColor,
-    fontWeight: FontWeight.bold);
-
-const kSubLabelTextStyle = TextStyle(
     fontSize: 14.0,
     fontFamily: 'Lato',
     color: kTextColor,
-    fontWeight: FontWeight.bold);
+    fontWeight: FontWeight.normal);
+
+const kSubLabelTextStyle = TextStyle(
+    fontSize: 12.0,
+    fontFamily: 'Lato',
+    color: kTextColor,
+    fontWeight: FontWeight.normal);
 
 const kValueTextStyle = TextStyle(
     fontSize: 14.0,
