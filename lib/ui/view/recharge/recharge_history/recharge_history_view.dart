@@ -1,13 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:xeniusapp/business_logic/enum/viewstate.dart';
+import 'package:xeniusapp/business_logic/models/recharge_history/recharge_history_response.dart';
+import 'package:xeniusapp/business_logic/viewmodels/recharge_history_viewmodel.dart';
+import 'package:xeniusapp/constants.dart';
+import 'package:xeniusapp/ui/view/base_view.dart';
 
-Map<String, Image> images = {
-  '0': Image.asset('assets/images/ic_coupon_icon.png'),
-  '1': Image.asset('assets/images/ic_hdfc.png'),
-  '2': Image.asset('assets/images/ic_mobikwik.png'),
-  '3': Image.asset('assets/images/ic_paytm.png')
-};
+
 
 class RechargeHistoryView extends StatefulWidget {
   @override
@@ -17,25 +18,30 @@ class RechargeHistoryView extends StatefulWidget {
 class _RechargeHistoryViewState extends State<RechargeHistoryView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return BaseView<RechargeHistoryViewModel>(
+        onModelReady:(model) => model.getRechargeHistory(),
+        builder: (context, value, child) => value.state == ViewState.Busy ?
+        Center(child: SpinKitCircle(color: kColorPrimary,))
+        :Container(
       margin: EdgeInsets.only(bottom: 24),
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: 4,
+          itemCount: value.rechargeHistoryResponse.resource.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Card(
+              padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+              child: value.rechargeHistoryResponse ==null?Container(width:0.0, height: 0.0,): Card(
                   child: RechargeListItem(
                 index: index,
-                icon: Icon(Icons.account_balance_wallet),
+                icon: Icon(Icons.account_balance_wallet,),
+                rechargeHistoryResponse: value.rechargeHistoryResponse,
                 amount: 'INR 34566',
                 transactionId: 'RDS13456782',
                 date: 'Dec 28',
               )),
             );
           }),
-    );
+    ));
   }
 }
 
@@ -108,9 +114,10 @@ class RechargeListItem extends StatelessWidget {
     this.icon,
     this.amount,
     this.transactionId,
-    this.date,
+    this.date, this.rechargeHistoryResponse,
   }) : super(key: key);
 
+  final RechargeHistoryResponse rechargeHistoryResponse;
   final int index;
   final Icon icon;
   final String amount;
@@ -124,21 +131,29 @@ class RechargeListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
         height: 60,
+
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
               aspectRatio: 1.0,
-              child: images['$index'],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _rechargeImage(rechargeHistoryResponse, index),
+              ),
             ),
             Expanded(
-              child: Padding(
+              child: rechargeHistoryResponse != null?Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 0.0, 2.0, 0.0),
                 child: _RechargeDescription(
-                  amount: amount,
-                  transactionId: transactionId,
-                  date: date,
+                  amount: '${rechargeHistoryResponse.resource[index].amount}',
+                  transactionId: '${rechargeHistoryResponse.resource[index].coupon_id}',
+                  date: '${rechargeHistoryResponse.resource[index].recharge_time}',
                 ),
+              ):_RechargeDescription(
+                amount: 'Amount',
+                transactionId: 'Transaction Id',
+                date: 'DD-MM-YYYY',
               ),
             )
           ],
@@ -146,4 +161,21 @@ class RechargeListItem extends StatelessWidget {
       ),
     );
   }
+
+  Image _rechargeImage(RechargeHistoryResponse rechargeHistoryResponse, int index){
+    if(rechargeHistoryResponse != null){
+      if(rechargeHistoryResponse.resource[index].mode == 'XE-MAIN'){
+        return Image.asset('assets/images/ic_coupon_icon.png');
+      }else if(rechargeHistoryResponse.resource[index].mode == 'HDFC'){
+        return Image.asset('assets/images/ic_hdfc.png');
+      }else if(rechargeHistoryResponse.resource[index].mode == 'PAYTM'){
+        return Image.asset('assets/images/ic_paytm.png');
+      }if(rechargeHistoryResponse.resource[index].mode == 'MOBIKWIK'){
+        return Image.asset('assets/images/ic_mobikwik.png');
+      }
+    }
+    return Image.asset('assets/images/ic_coupon_icon.png');
+
+  }
 }
+

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:xeniusapp/business_logic/models/login_resource.dart';
+import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
 
 import 'package:xeniusapp/components/rouded_button_recharge.dart';
 import 'package:xeniusapp/constants.dart';
+import 'package:xeniusapp/locator.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_history/recharge_history_view.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_status_dialog.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_webview_dialog.dart';
@@ -17,9 +20,14 @@ class _RechargeViewState extends State<RechargeView>
     with SingleTickerProviderStateMixin {
   TabController _controller;
   SingingCharacter _character = SingingCharacter.grid;
+  LoginResource loginResource;
+  LoginViewModel loginModel = locator<LoginViewModel>();
 
   @override
   void initState() {
+    loginModel.login().then((value) {setState(() {
+      loginResource = value.body;
+    });});
     _controller = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -59,7 +67,7 @@ class _RechargeViewState extends State<RechargeView>
             borderRadius: BorderRadius.circular(8.0),
           ),
           margin:
-              EdgeInsets.only(top: 16.0, bottom: 16.0, left: 4.0, right: 4.0),
+              EdgeInsets.only(top: 16.0, bottom: 2.0, left: 8.0, right: 8.0),
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -72,10 +80,11 @@ class _RechargeViewState extends State<RechargeView>
                       'Available balance',
                       style: kLabelTextStyle,
                     ),
-                    Text(
-                      'INR 345678999',
+
+                    loginResource != null ? Text(
+                      'INR ${loginResource.resource.balance_amount}',
                       style: kLabelTextStyle,
-                    ),
+                    ): Text(''),
                   ],
                 ),
                 SizedBox(height: 8.0),
@@ -86,10 +95,10 @@ class _RechargeViewState extends State<RechargeView>
                       'Updated on',
                       style: kSubLabelTextStyle,
                     ),
-                    Text(
-                      '2-10-2020 12:00:56',
+                    loginResource != null ?Text(
+                      '${loginResource.resource.last_reading_updated}',
                       style: kSubValueTextStyle,
-                    ),
+                    ): Text(''),
                   ],
                 ),
                 SizedBox(height: 4.0),
@@ -100,51 +109,67 @@ class _RechargeViewState extends State<RechargeView>
                       'Recent Recharge',
                       style: kSubLabelTextStyle,
                     ),
-                    Text(
-                      '2-10-2020 12:00:56',
+                    loginResource != null ? Text(
+                      '${loginResource.resource.last_recharge_time}',
                       style: kSubValueTextStyle,
-                    ),
+                    ): Text(''),
                   ],
                 ),
-                SizedBox(height: 16.0),
-                Column(
+
+              ],
+            ),
+          ),
+        ),
+        Card(
+          margin:
+          EdgeInsets.only(top: 0.0, bottom: 16.0, left: 8.0, right: 8.0),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8.0),
+    ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Recharge',
+                      style: TextStyle(
+                          fontFamily: 'Lato',
+                          color: kColorAccentRed,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Wrap(
+
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Recharge',
-                        style: TextStyle(
-                            fontFamily: 'Lato',
-                            color: kColorAccentRed,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.start,
-                      ),
+                    RechargeWidget(
+                      rechargeType: 'Coupon',
+                      image: AssetImage('assets/images/ic_coupon_icon.png'),
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        RechargeWidget(
-                          rechargeType: 'Coupon',
-                          image: AssetImage('assets/images/ic_coupon_icon.png'),
-                        ),
-                        RechargeWidget(
-                          rechargeType: 'HDFC',
-                          image: AssetImage('assets/images/ic_hdfc.png'),
-                        ),
-                        RechargeWidget(
-                          rechargeType: 'Paytm',
-                          image: AssetImage('assets/images/ic_paytm.png'),
-                        ),
-                        RechargeWidget(
-                          rechargeType: 'Mobikwik',
-                          image: AssetImage('assets/images/ic_mobikwik.png'),
-                        )
-                      ],
-                    ),
+
+                    if (loginResource != null && loginResource.resource.pg_enable_hdfc == 'Y') RechargeWidget(
+                      rechargeType: 'HDFC',
+                      image: AssetImage('assets/images/ic_hdfc.png'),
+                    ) else Container(width: 0, height: 0),
+                    if (loginResource != null && loginResource.resource.pg_enable_paytm == 'Y') RechargeWidget(
+                      rechargeType: 'Paytm',
+                      image: AssetImage('assets/images/ic_paytm.png'),
+                    ) else Container(width: 0, height: 0,),
+                    if (loginResource != null && loginResource.resource.pg_enable_mobikwik == 'Y') RechargeWidget(
+                      rechargeType: 'Mobikwik',
+                      image: AssetImage('assets/images/ic_mobikwik.png'),
+                    ) else Container(width: 0, height: 0),
                   ],
                 ),
               ],
@@ -152,16 +177,18 @@ class _RechargeViewState extends State<RechargeView>
           ),
         ),
         Container(
+          margin:
+          EdgeInsets.only(top: 0.0, bottom: 16.0, left: 4.0, right: 4.0),
           height: 348,
           child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
               child: Padding(
-                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: ListView(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(top:24.0),
                       child: Text(
                         'Recharge History',
                         style: kLabelTextStyle,
@@ -418,30 +445,38 @@ class RechargeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: 48.0,
-          width: 48.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: kColorPrimaryDark, width: 2.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 24,
-              backgroundImage: image,
-              backgroundColor: Colors.transparent,
+    return GestureDetector(
+      onTap: () {
+
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              height: 48.0,
+              width: 48.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: kColorPrimaryDark, width: 2.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  radius: 24,
+                  backgroundImage: image,
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
             ),
-          ),
+            Text(
+              rechargeType,
+              textAlign: TextAlign.start,
+            ),
+          ],
         ),
-        Text(
-          rechargeType,
-          textAlign: TextAlign.start,
-        ),
-      ],
+      ),
     );
   }
 }

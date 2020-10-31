@@ -1,12 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xeniusapp/business_logic/enum/viewstate.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
 import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
-import 'package:xeniusapp/ui/view/home/components/collapsing_toolbar.dart';
+
 import 'package:xeniusapp/ui/view/home/components/overview.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
 import 'package:xeniusapp/ui/view/profile/user_profile_dialog.dart';
@@ -31,26 +32,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   LoginResource loginResource;
-  LoginViewModel loginViewModel = locator<LoginViewModel>();
+  LoginViewModel loginModel = locator<LoginViewModel>();
+
+
 
   GlobalKey _bottomNavigationKey = GlobalKey();
 
-  @override
-  void initState() {
-    loginViewModel.login().then((value) {
-      setState(() {
-        loginResource = value.body;
-      });
-    });
-
-    super.initState();
-  }
 
   final List<Widget> _widgetOption = [
     OverviewPage(),
     RechargeView(),
     ReportView(),
   ];
+
+  @override
+  void initState() {
+    loginModel.login().then((value) {setState(() {
+      loginResource = value.body;
+    });});
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -61,11 +62,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      backgroundColor: Colors.white70,
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool isScrolled) {
-          return [
+        extendBody: true,
+        backgroundColor: Colors.white70,
+        body:  NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool isScrolled) {
+            return [
             SliverAppBar(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -143,7 +144,7 @@ class _HomeState extends State<Home> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image:
-                                AssetImage('assets/images/ic_person_menu.png')),
+                            AssetImage('assets/images/ic_person_menu.png')),
                       ),
                     ),
                   ),
@@ -156,7 +157,7 @@ class _HomeState extends State<Home> {
                       onSelected: (value) async {
                         if (value == 1) {
                           SharedPreferences preferences =
-                              await SharedPreferences.getInstance();
+                          await SharedPreferences.getInstance();
                           await preferences.clear();
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               LoginView.id, (Route<dynamic> route) => false);
@@ -196,22 +197,22 @@ class _HomeState extends State<Home> {
                   margin: EdgeInsets.only(left: 24.0, top: 48.0),
                   child: ListView(
                     children: [
-                      Text('Unit No\n${loginResource.resource.flat_number}',
+                      loginResource != null ? Text('Unit No\n${loginResource.resource.flat_number}',
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 12.0,
-                          )),
+                          )): Text(''),
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0, right: 24.0, bottom: 16.0),
                         child: MarqueeWidget(
                             direction: Axis.horizontal,
-                            child: Text(
+                            child: loginResource != null?Text(
                               '${loginResource.resource.msg}',
                               style: TextStyle(
                                   backgroundColor: kColorAccentRed,
                                   fontSize: 12.0),
-                            )),
+                            ):Text('')),
                       )
                     ],
                   ),
@@ -234,34 +235,36 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-          ];
-        },
-        body: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: Container(child: _widgetOption.elementAt(_selectedIndex)),
+            ];
+          },
+          body: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: Container(child: _widgetOption.elementAt(_selectedIndex)),
+          ),
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          items: [
-            Icon(
-              Icons.home,
-              size: 30.0,
-            ),
-            Icon(Icons.mobile_screen_share),
-            Icon(Icons.insert_chart),
-          ],
-          color: Colors.white,
-          buttonBackgroundColor: Colors.white,
-          backgroundColor: Colors.transparent,
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          }),
+        bottomNavigationBar: CurvedNavigationBar(
+            key: _bottomNavigationKey,
+            items: [
+              Icon(
+                Icons.home,
+                size: 30.0,
+              ),
+              Icon(Icons.mobile_screen_share),
+              Icon(Icons.insert_chart),
+            ],
+            color: Colors.white,
+            buttonBackgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
+            animationCurve: Curves.easeInOut,
+            animationDuration: Duration(milliseconds: 600),
+            onTap: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            }),
     );
   }
 }
+
+

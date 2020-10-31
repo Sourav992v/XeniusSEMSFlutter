@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
 import 'package:xeniusapp/business_logic/enum/viewstate.dart';
-
+import 'package:xeniusapp/business_logic/models/notice_response/notice_resource.dart';
 
 import 'package:xeniusapp/business_logic/models/notice_response/notice_response.dart';
+import 'package:xeniusapp/business_logic/models/recharge_history/recharge_history_response.dart';
 
 import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 
@@ -13,13 +15,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'base_viewmodel.dart';
 
-class NoticeViewModel extends BaseViewModel {
+class RechargeHistoryViewModel extends BaseViewModel {
   final AuthenticationService _authService = locator<AuthenticationService>();
 
-  NoticeResponse noticeResponse;
+  RechargeHistoryResponse rechargeHistoryResponse;
 
   String errorMessage;
-  Future<Response<NoticeResponse>> getNotice() async {
+  Future<Response<RechargeHistoryResponse>> getRechargeHistory() async {
     SharedPreferences userPref = await SharedPreferences.getInstance();
     String loginId = userPref.getString('login_id');
     String password = userPref.getString('password');
@@ -29,8 +31,8 @@ class NoticeViewModel extends BaseViewModel {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var resource = await _authService.getNotice(loginId, password);
-        noticeResponse = resource.body;
+        var resource = await _authService.getRechargeHistory(loginId, password);
+        rechargeHistoryResponse = resource.body;
         setState(ViewState.Idle);
         return resource;
       } else {

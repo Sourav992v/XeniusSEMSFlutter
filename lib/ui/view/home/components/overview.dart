@@ -57,6 +57,7 @@ class _PageViewState extends State<PageViewBalance> {
               viewportFraction: 1,
               enlargeCenterPage: false,
               pauseAutoPlayOnTouch: true,
+              autoPlayInterval: Duration(seconds: 10000),
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;

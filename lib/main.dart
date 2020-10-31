@@ -112,28 +112,28 @@ class _XeniusAppState extends State<XeniusApp> {
   @override
   Widget build(BuildContext context) {
     return OverlaySupport(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: kColorPrimary,
-          fontFamily: 'Lato',
-          scaffoldBackgroundColor: Colors.white,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: kColorPrimary,
+            fontFamily: 'Lato',
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          initialRoute: SplashScreen.id,
+          //loginId != null || password != null ? Home.id : LoginView.id,//
+          routes: {
+            SplashScreen.id: (context) => SplashScreen(),
+            Home.id: (context) => Home(),
+            LoginView.id: (context) => LoginView(),
+            DailyReportView.id: (context) => DailyReportView(),
+            MonthlyReportView.id: (context) => MonthlyReportView(),
+            ComparativeReportView.id: (context) => ComparativeReportView(),
+            NotificationSettings.id: (context) => NotificationSettings(),
+            PasswordInput.id: (context) => PasswordInput(),
+            PasswordResetOtp.id: (context) => PasswordResetOtp(),
+            ResetPassword.id: (context) => ResetPassword(),
+          },
         ),
-        initialRoute: SplashScreen.id,
-        //loginId != null || password != null ? Home.id : LoginView.id,//
-        routes: {
-          SplashScreen.id: (context) => SplashScreen(),
-          Home.id: (context) => Home(),
-          LoginView.id: (context) => LoginView(),
-          DailyReportView.id: (context) => DailyReportView(),
-          MonthlyReportView.id: (context) => MonthlyReportView(),
-          ComparativeReportView.id: (context) => ComparativeReportView(),
-          NotificationSettings.id: (context) => NotificationSettings(),
-          PasswordInput.id: (context) => PasswordInput(),
-          PasswordResetOtp.id: (context) => PasswordResetOtp(),
-          ResetPassword.id: (context) => ResetPassword(),
-        },
-      ),
     );
   }
 }

@@ -117,4 +117,17 @@ class _$AuthenticationService extends AuthenticationService {
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<MessageResponse, MessageResponse>($request);
   }
+
+  @override
+  Future<Response<RechargeHistoryResponse>> getRechargeHistory(
+      String loginId, String password) {
+    final $url = 'recharge_history_new';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client
+        .send<RechargeHistoryResponse, RechargeHistoryResponse>($request);
+  }
 }

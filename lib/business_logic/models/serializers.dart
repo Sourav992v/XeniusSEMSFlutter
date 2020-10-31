@@ -17,6 +17,8 @@ import 'package:xeniusapp/business_logic/models/notice_response/notice_resource.
 import 'package:xeniusapp/business_logic/models/notice_response/notice_response.dart';
 
 import 'package:xeniusapp/business_logic/models/password_change/password_change_response.dart';
+import 'package:xeniusapp/business_logic/models/recharge_history/recharge_history_resource.dart';
+import 'package:xeniusapp/business_logic/models/recharge_history/recharge_history_response.dart';
 import 'package:xeniusapp/business_logic/models/resource.dart';
 
 part 'serializers.g.dart';
@@ -36,7 +38,9 @@ part 'serializers.g.dart';
   NoticeResponse,
   NoticeResource,
   MessageResponse,
-  MessageResource
+  MessageResource,
+  RechargeHistoryResponse,
+  RechargeHistoryResource
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
