@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.e.xeniusapp">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -6,6 +7,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="xeniusapp"
@@ -52,5 +54,30 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <provider
+            android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
+            android:authorities="${applicationId}.flutter_downloader.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove" />
+
+        <provider
+            android:name="vn.hunghd.flutterdownloader.FlutterDownloaderInitializer"
+            android:authorities="${applicationId}.flutter-downloader-init"
+            android:exported="false">
+        <!-- changes this number to configure the maximum number of concurrent tasks -->
+        <meta-data
+            android:name="vn.hunghd.flutterdownloader.MAX_CONCURRENT_TASKS"
+            android:value="5" />
+        </provider>
     </application>
 </manifest>

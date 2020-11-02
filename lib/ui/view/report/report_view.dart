@@ -45,6 +45,7 @@ class _ReportViewState extends State<ReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: ReportViewCard(currentApplicable: currentApplicableResource),
@@ -162,7 +163,8 @@ class ReportViewCard extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    showBottomSheet(
+                    showModalBottomSheet(
+
                         context: context,
                         elevation: 5.0,
                         backgroundColor: Colors.transparent,
@@ -175,7 +177,9 @@ class ReportViewCard extends StatelessWidget {
                                     right: 8.0,
                                     bottom: 8.0),
                                 decoration: BoxDecoration(
+
                                     color: Colors.white,
+
                                     boxShadow: [
                                       //background color of box
                                       BoxShadow(
@@ -208,7 +212,7 @@ class ReportViewCard extends StatelessWidget {
                                                 0.3,
                                         child: ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: currentApplicable.length,
+                                          itemCount: currentApplicable != null ? currentApplicable.length: 0,
                                           itemBuilder: (context, index) {
                                             return Card(
                                               elevation: 2.0,

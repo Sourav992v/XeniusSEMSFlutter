@@ -71,9 +71,9 @@ class _PiechartRecyclerViewState extends State<PiechartRecyclerView> {
           ),
         );
       } else {
-        return SizedBox(
-          height: 480,
-          width: 1000,
+        return Container(
+          height: 548,
+          margin: EdgeInsets.only(bottom: 24.0),
           child: ListView.builder(
             controller: ScrollController(),
             physics: NeverScrollableScrollPhysics(),

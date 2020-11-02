@@ -65,6 +65,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.3.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 }
 
 apply plugin: 'com.google.gms.google-services'

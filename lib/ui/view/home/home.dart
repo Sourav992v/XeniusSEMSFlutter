@@ -245,6 +245,7 @@ class _HomeState extends State<Home> {
         ),
         bottomNavigationBar: CurvedNavigationBar(
             key: _bottomNavigationKey,
+
             items: [
               Icon(
                 Icons.home,

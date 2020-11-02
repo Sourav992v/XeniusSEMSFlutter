@@ -16,6 +16,7 @@ class OverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       child: ListView(
         children: [
           PageViewBalance(),
@@ -37,10 +38,7 @@ class _PageViewState extends State<PageViewBalance> {
   final List<Widget> imageSliders = layoutList
       .map(
         (item) => Container(
-          margin: EdgeInsets.all(5.0),
-          child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child: item),
+          child: item,
         ),
       )
       .toList();
@@ -55,7 +53,7 @@ class _PageViewState extends State<PageViewBalance> {
               autoPlay: true,
               height: MediaQuery.of(context).size.height * 0.45,
               viewportFraction: 1,
-              enlargeCenterPage: false,
+              enlargeCenterPage: true,
               pauseAutoPlayOnTouch: true,
               autoPlayInterval: Duration(seconds: 10000),
               onPageChanged: (index, reason) {
