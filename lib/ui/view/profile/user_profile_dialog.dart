@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
+import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
 
 
@@ -18,6 +19,7 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
   bool isExpanded = false;
   LoginResource loginResource;
   LoginViewModel model = locator<LoginViewModel>();
+  AuthenticationService _authenticationService = locator<AuthenticationService>();
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            body: loginResource == null ? SpinKitFadingCircle(size: 24, color: kColorPrimary,) : CustomScrollView(
+            body: loginResource == null ? SpinKitFadingCircle(size: 24, color: kColorPrimary,) :CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
                   delegate: ProfileSliverAppBar(expandedHeight: 96.0),
@@ -57,7 +59,7 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    Container(
+                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 24.0,),
                       child: Card(
                         elevation: 5.0,
@@ -244,7 +246,7 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                   Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Text(
-                                      'Lotus',
+                                      '${loginResource.resource.site_support_concern_name}',
                                       style: kSubLabelTextStyle,
                                     ),
                                   ),
@@ -253,14 +255,14 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                       Icons.call,
                                       color: kColorPrimaryDark,
                                     ),
-                                    title: Text('1123445556'),
+                                    title: Text('${loginResource.resource.site_support_contact_no}'),
                                   ),
                                   ListTile(
                                     leading: Icon(
                                       Icons.email,
                                       color: kColorPrimaryDark,
                                     ),
-                                    title: Text('data'),
+                                    title: Text('${loginResource.resource.site_support_email_id}'),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 4.0),
@@ -275,7 +277,7 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                   Padding(
                                     padding: const EdgeInsets.all(2.0),
                                     child: Text(
-                                      'Radius',
+                                      '${loginResource.resource.site_supervisor_name}',
                                       style: kSubLabelTextStyle,
                                     ),
                                   ),
@@ -284,14 +286,14 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                       Icons.call,
                                       color: kColorPrimaryDark,
                                     ),
-                                    title: Text('1123445556'),
+                                    title: Text('${loginResource.resource.site_supervisor_contact_no}'),
                                   ),
                                   ListTile(
                                     leading: Icon(
                                       Icons.email,
                                       color: kColorPrimaryDark,
                                     ),
-                                    title: Text('data'),
+                                    title: Text('${loginResource.resource.site_supervisor_email_id}'),
                                   )
                                 ],
                               ),

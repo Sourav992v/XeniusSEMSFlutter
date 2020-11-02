@@ -17,6 +17,20 @@ class _$AuthenticationService extends AuthenticationService {
   final definitionType = AuthenticationService;
 
   @override
+  Future<Response<AuthResource>> getAuthUser(
+      String loginId, String password, String device_token, String device_os) {
+    final $url = 'login';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password,
+      'device_token': device_token,
+      'device_OS': device_os
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<AuthResource, AuthResource>($request);
+  }
+
+  @override
   Future<Response<LoginResource>> getUser(String loginId, String password) {
     final $url = 'login';
     final $params = <String, dynamic>{
@@ -25,6 +39,19 @@ class _$AuthenticationService extends AuthenticationService {
     };
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<LoginResource, LoginResource>($request);
+  }
+
+  @override
+  Future<Response<LoginCountResponse>> setLoginCount(
+      String loginId, String password, int loginCount) {
+    final $url = 'login';
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password,
+      'login_count': loginCount
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<LoginCountResponse, LoginCountResponse>($request);
   }
 
   @override
@@ -129,5 +156,57 @@ class _$AuthenticationService extends AuthenticationService {
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client
         .send<RechargeHistoryResponse, RechargeHistoryResponse>($request);
+  }
+
+  @override
+  Future<Response<SetConfigResponse>> getSetConfigNotification(
+      String notify_app_balance,
+      String notify_unit_consumption,
+      String daily_consumption_grid,
+      String daily_consumption_dg,
+      String notify_power_cut_restore,
+      String notify_app_esource,
+      String notification_app_recharge) {
+    final $url = 'config/set_config';
+    final $params = <String, dynamic>{
+      'notification_app_balance': notify_app_balance,
+      'notification_app_unit_consumption': notify_unit_consumption,
+      'alert_daily_consumption_grid': daily_consumption_grid,
+      'alert_daily_consumption_dg': daily_consumption_dg,
+      'notification_power_cut_restore': notify_power_cut_restore,
+      'notification_app_esource': notify_app_esource,
+      'notification_app_recharge': notification_app_recharge
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<SetConfigResponse, SetConfigResponse>($request);
+  }
+
+  @override
+  Future<Response<CouponRechargeResponse>> getCouponRecharge(String coupon_id) {
+    final $url = 'recharge';
+    final $params = <String, dynamic>{'coupon_id': coupon_id};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client
+        .send<CouponRechargeResponse, CouponRechargeResponse>($request);
+  }
+
+  @override
+  Future<Response<RemoveFirebaseTokenResponse>> removeFCMToken(
+      String device_token, String device_os) {
+    final $url = 'update_token';
+    final $params = <String, dynamic>{
+      'device_token': device_token,
+      'device_OS': device_os
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<RemoveFirebaseTokenResponse,
+        RemoveFirebaseTokenResponse>($request);
+  }
+
+  @override
+  Future<Response<PowerControlResponse>> getPowerControl(String controlString) {
+    final $url = '$controlString';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<PowerControlResponse, PowerControlResponse>($request);
   }
 }

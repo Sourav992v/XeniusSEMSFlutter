@@ -7,12 +7,15 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(AuthResource.serializer)
       ..add(ComparativeReport.serializer)
       ..add(ComparativeResource.serializer)
+      ..add(CouponRechargeResponse.serializer)
       ..add(CurrentApplicableResource.serializer)
       ..add(CurrentApplicableResponse.serializer)
       ..add(DailyReport.serializer)
       ..add(DailyResource.serializer)
+      ..add(LoginCountResponse.serializer)
       ..add(LoginResource.serializer)
       ..add(MessageResource.serializer)
       ..add(MessageResponse.serializer)
@@ -21,9 +24,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NoticeResource.serializer)
       ..add(NoticeResponse.serializer)
       ..add(PasswordChangeResponse.serializer)
+      ..add(PowerControlResponse.serializer)
       ..add(RechargeHistoryResource.serializer)
       ..add(RechargeHistoryResponse.serializer)
+      ..add(RemoveFirebaseTokenResponse.serializer)
       ..add(Resource.serializer)
+      ..add(SetConfigResponse.serializer)
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(CurrentApplicableResource)]),
