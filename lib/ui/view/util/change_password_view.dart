@@ -159,9 +159,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                               backgroundColor: kColorPrimaryDark,
                             ));
                           } else {
-                            setState(() {
-                              _validate = true;
-                            });
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                               content: Text(
                                 'Logging out!!',

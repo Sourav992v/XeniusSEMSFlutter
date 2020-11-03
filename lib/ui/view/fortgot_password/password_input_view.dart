@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/ui/view/fortgot_password/password_reset_otp.dart';
 
-class PasswordInput extends StatelessWidget {
+class PasswordInput extends StatefulWidget {
   static const String id = 'password_input';
+
+  @override
+  _PasswordInputState createState() => _PasswordInputState();
+}
+
+class _PasswordInputState extends State<PasswordInput> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

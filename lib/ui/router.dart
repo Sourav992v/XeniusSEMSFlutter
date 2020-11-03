@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xeniusapp/ui/view/home/home.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
+import 'package:xeniusapp/ui/view/profile/user_profile_dialog.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {

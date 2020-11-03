@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xeniusapp/business_logic/viewmodels/auth_viewmodel.dart';
 import 'package:xeniusapp/ui/view/base_view.dart';
 
 import 'components/login_header.dart';
@@ -15,14 +16,16 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController loginIdController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginViewModel>(
+    return BaseView<AuthViewModel>(
       builder: (context, model, child) => Scaffold(
         body: Center(
           child: LoginHeader(
             loginIdController: loginIdController,
             passwordController: passwordController,
+
           ),
         ),
       ),

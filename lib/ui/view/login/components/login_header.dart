@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:xeniusapp/business_logic/viewmodels/auth_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:xeniusapp/components/check_box.dart';
 import 'package:xeniusapp/components/rouded_button.dart';
@@ -16,16 +17,17 @@ import 'package:xeniusapp/ui/view/fortgot_password/password_input_view.dart';
 import 'package:xeniusapp/ui/view/home/home.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xeniusapp/ui/view/util/change_password_view.dart';
 
 class LoginHeader extends StatefulWidget {
   final TextEditingController loginIdController;
   final TextEditingController passwordController;
-  final String validationMessage;
+  final String fcmToken;
 
   const LoginHeader({
     @required this.loginIdController,
     @required this.passwordController,
-    this.validationMessage,
+    this.fcmToken,
   });
 
   @override
@@ -34,6 +36,7 @@ class LoginHeader extends StatefulWidget {
 
 class _LoginHeaderState extends State<LoginHeader> {
   bool _obscureText = true;
+
 
   String _connectivityStatus;
   final Connectivity _connectivity = Connectivity();
@@ -99,7 +102,7 @@ class _LoginHeaderState extends State<LoginHeader> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BaseView<LoginViewModel>(
+    return BaseView<AuthViewModel>(
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Column(
@@ -193,12 +196,25 @@ class _LoginHeaderState extends State<LoginHeader> {
                                         widget.passwordController.text);
                                     userPref.setBool('login', true);
 
-                                    var success = await model.login();
+                                    String fcmToken = userPref.getString('fcmToken') ?? '';
+
+                                    var success = await model.authUser(fcmToken, 'ANDROID');
 
                                     if (success.body.rc == 0) {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(Home.id,
-                                              (Route<dynamic> route) => false);
+                                      var loginCount = await model.setLoginCount(1);
+
+                                        if(loginCount.body.resource.login_count == '0'){
+                                          Navigator.pushNamed(context,ChangePassword.id);
+
+                                        }else {
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(Home.id,
+                                                  (
+                                                  Route<dynamic> route) => false);
+                                        }
+
+
+
                                     } else {
                                       Scaffold.of(context)
                                           .showSnackBar(SnackBar(

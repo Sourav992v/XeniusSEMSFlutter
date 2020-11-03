@@ -12,16 +12,15 @@ import 'package:xeniusapp/ui/view/fortgot_password/reset_password_view.dart';
 
 import 'package:xeniusapp/ui/view/home/home.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
+import 'package:xeniusapp/ui/view/profile/user_profile_dialog.dart';
 import 'package:xeniusapp/ui/view/report/comparative_report_view.dart';
 import 'package:xeniusapp/ui/view/report/daily_report_view.dart';
 import 'package:xeniusapp/ui/view/report/monthly_report/monthly_report_view.dart';
+import 'package:xeniusapp/ui/view/util/change_password_view.dart';
 
 import 'package:xeniusapp/ui/view/util/notification_settings.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'business_logic/models/login_resource.dart';
-import 'business_logic/services/login_service.dart';
 
 void main() {
   setupLoactor();
@@ -52,7 +51,11 @@ class _XeniusAppState extends State<XeniusApp> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   _register() {
-    _firebaseMessaging.getToken().then((value) => print(value));
+    _firebaseMessaging.getToken().then((value) async {
+      SharedPreferences userPref = await SharedPreferences.getInstance();
+      userPref.setString('fcmToken', value);
+      print(value);
+    });
   }
 
   @override
@@ -132,6 +135,7 @@ class _XeniusAppState extends State<XeniusApp> {
             PasswordInput.id: (context) => PasswordInput(),
             PasswordResetOtp.id: (context) => PasswordResetOtp(),
             ResetPassword.id: (context) => ResetPassword(),
+            ChangePassword.id: (context) => ChangePassword()
           },
         ),
     );
