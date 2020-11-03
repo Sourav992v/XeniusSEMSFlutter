@@ -119,6 +119,8 @@ abstract class AuthenticationService extends ChopperService {
 
   @Get(path: 'config/set_config')
   Future<Response<SetConfigResponse>> getSetConfigNotification(
+      @Query('login_id') String loginId,
+      @Query('password') String password,
       @Query('notification_app_balance') String notify_app_balance,
       @Query('notification_app_unit_consumption')String notify_unit_consumption,
       @Query('alert_daily_consumption_grid') String daily_consumption_grid,

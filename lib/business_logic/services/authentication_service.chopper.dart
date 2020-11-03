@@ -160,6 +160,8 @@ class _$AuthenticationService extends AuthenticationService {
 
   @override
   Future<Response<SetConfigResponse>> getSetConfigNotification(
+      String loginId,
+      String password,
       String notify_app_balance,
       String notify_unit_consumption,
       String daily_consumption_grid,
@@ -169,6 +171,8 @@ class _$AuthenticationService extends AuthenticationService {
       String notification_app_recharge) {
     final $url = 'config/set_config';
     final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password,
       'notification_app_balance': notify_app_balance,
       'notification_app_unit_consumption': notify_unit_consumption,
       'alert_daily_consumption_grid': daily_consumption_grid,

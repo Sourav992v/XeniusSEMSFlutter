@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:xeniusapp/business_logic/models/set_config_response.dart';
+import 'package:xeniusapp/business_logic/viewmodels/set_config_viewmodel.dart';
 import 'package:xeniusapp/constants.dart';
-import 'package:xeniusapp/ui/view/util/dimen.dart';
+import 'package:xeniusapp/locator.dart';
+
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +14,9 @@ class NotificationSettings extends StatefulWidget {
 }
 
 class _NotificationSettingsState extends State<NotificationSettings> {
+  SetConfigViewModel _setConfigViewModel = locator<SetConfigViewModel>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   SharedPreferences sharedPreferences;
   bool dgGridNotificationToggle = true;
   bool lowBalanceToggle = true;
@@ -30,8 +36,11 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   TextEditingController _grid = TextEditingController();
   TextEditingController _dg = TextEditingController();
 
+  var configResponse;
+
   @override
   void initState() {
+    configResponse = SetConfigResponse();
     getSharedPref();
     super.initState();
   }
@@ -56,6 +65,25 @@ class _NotificationSettingsState extends State<NotificationSettings> {
 
     rechargeToggle = sharedPreferences.getBool('rechargeAlert') ?? true;
     rechargeSummary = rechargeToggle ? 'YES' : 'NO';
+
+    setUpConfig();
+  }
+
+  Future<SetConfigResponse> setUpConfig() async{
+    String unit_notification = dgGridNotificationToggle  ? "Y" : "N";
+    String low_balance_notification = lowBalanceToggle ? "Y" : "N";
+    String power_state_notification = powerCutToggle ? "Y" : "N";
+    String source_change_notification = sourceToggle ? "Y" : "N";
+    String notify_recharge = rechargeToggle ? "Y" : "N";
+    
+    configResponse = await _setConfigViewModel.setConfig(low_balance_notification, unit_notification,
+        _gridAlertValue.toString(), _dgAlertValue.toString(), power_state_notification,
+        source_change_notification, notify_recharge);
+    if(configResponse != null && configResponse.body.rc == 0){
+      print('SetConfigView: ${configResponse.body.message}');
+      return configResponse.body;
+    }else return SetConfigResponse();
+
   }
 
   @override
@@ -63,6 +91,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) => Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           leading: GestureDetector(
               child: Icon(
@@ -70,7 +99,27 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                 color: Colors.black,
               ),
               onTap: () {
-                Navigator.pop(context);
+                setUpConfig().then((value) {
+                  if(value != null && value.rc == 0){
+                    Navigator.pop(context);
+                  }else{
+                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                      content: Text(
+                        'Network error!',
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      backgroundColor: kColorPrimaryDark,
+                    ));
+                    Future.delayed(Duration(seconds: 5),(){
+                    Navigator.pop(context);
+                    });
+                  }
+                });
+
               }),
           backgroundColor: Colors.white,
           title: Padding(

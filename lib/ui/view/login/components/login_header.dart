@@ -20,12 +20,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginHeader extends StatefulWidget {
   final TextEditingController loginIdController;
   final TextEditingController passwordController;
-  final String validationMessege;
+  final String validationMessage;
 
   const LoginHeader({
     @required this.loginIdController,
     @required this.passwordController,
-    this.validationMessege,
+    this.validationMessage,
   });
 
   @override

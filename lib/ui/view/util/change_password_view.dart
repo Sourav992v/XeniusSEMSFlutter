@@ -6,16 +6,25 @@ import 'package:xeniusapp/locator.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChangePassword extends StatelessWidget {
+class ChangePassword extends StatefulWidget {
   static const String id = 'change_password_view';
 
+  @override
+  _ChangePasswordState createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
   AuthenticationService _authenticationService =
       locator<AuthenticationService>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final TextEditingController changePassword = TextEditingController();
+
   final TextEditingController confirmPassword = TextEditingController();
+
+  bool _validate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,11 +97,13 @@ class ChangePassword extends StatelessWidget {
                 TextField(
                   controller: confirmPassword,
                   keyboardType: TextInputType.number,
+                  obscureText: true,
                   decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
                     prefixIcon: Icon(Icons.lock),
                     hintText: 'Confirm Password',
+                    errorText: _validate ? 'Input Mismatch' : null,
                     hintStyle: TextStyle(color: Colors.blueGrey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -121,16 +132,20 @@ class ChangePassword extends StatelessWidget {
                             fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
+                        FocusScope.of(context).unfocus();
                         SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();
                         String loginId =
                             sharedPreferences.getString('login_id') ?? '';
                         String password =
                             sharedPreferences.getString('password') ?? '';
-                        var result =
-                            await _authenticationService.setPasswordChange(
-                                loginId, password, confirmPassword.text);
+
                         if (changePassword.text == confirmPassword.text) {
+                          setState(() {
+                            _validate = false;
+                          });
+                          var result = await _authenticationService.setPasswordChange(
+                              loginId, password, confirmPassword.text);
                           if (result.body.rc != 0) {
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                               content: Text(
@@ -144,10 +159,31 @@ class ChangePassword extends StatelessWidget {
                               backgroundColor: kColorPrimaryDark,
                             ));
                           } else {
-                            Navigator.of(context)
-                                .pushReplacementNamed(LoginView.id);
+                            setState(() {
+                              _validate = true;
+                            });
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content: Text(
+                                'Logging out!!',
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              backgroundColor: Colors.blueAccent,
+                            ));
+                            Future.delayed(Duration(seconds: 2), (){
+                              Navigator.of(context)
+                                  .pushReplacementNamed(LoginView.id);
+                            });
+
                           }
                         } else {
+
+                          setState(() {
+                            _validate = true;
+                          });
                           _scaffoldKey.currentState.showSnackBar(SnackBar(
                             content: Text(
                               'Input Mismatch!',
