@@ -5,6 +5,10 @@ import 'package:xeniusapp/business_logic/models/comparative/comparative_report.d
 import 'package:xeniusapp/business_logic/models/coupon_recharge_response.dart';
 import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_response.dart';
 import 'package:xeniusapp/business_logic/models/daily_report.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/auth_otp_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/forgot_password_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/password_reset_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/resend_otp_response.dart';
 
 import 'package:xeniusapp/business_logic/models/login_count_response.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
@@ -144,5 +148,28 @@ abstract class AuthenticationService extends ChopperService {
   @Get(path: '{power_control}')
   Future<Response<PowerControlResponse>> getPowerControl(
       @Path('power_control') String controlString
+      );
+
+  @Get(path: 'forget_password')
+  Future<Response<ForgotPasswordResponse>> getForgotPassword(
+      @Query('login_id') String login_id,
+      @Query('mobile_no') String mobile_no
+      );
+
+  @Get(path: 'otp_varify')
+  Future<Response<AuthOTPResponse>> getAuthOTP(
+      @Query('login_id') String login_id,
+      @Query('otp') String otp
+      );
+
+  @Get(path: 'resend_otp')
+  Future<Response<ResendOTPResponse>> getOTP(
+      @Query('login_id') String login_id
+      );
+
+  @Get(path: 'password_change')
+  Future<Response<PasswordResetResponse>> getPasswordReset(
+      @Query('login_id') String login_id,
+      @Query('password') String password
       );
 }

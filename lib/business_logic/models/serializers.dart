@@ -9,6 +9,10 @@ import 'package:xeniusapp/business_logic/models/current_applicable_rates/current
 import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_response.dart';
 import 'package:xeniusapp/business_logic/models/daily_report.dart';
 import 'package:xeniusapp/business_logic/models/daily_resource.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/auth_otp_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/forgot_password_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/password_reset_response.dart';
+import 'package:xeniusapp/business_logic/models/forgot_password/resend_otp_response.dart';
 
 
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
@@ -54,7 +58,11 @@ part 'serializers.g.dart';
   SetConfigResponse,
   CouponRechargeResponse,
   RemoveFirebaseTokenResponse,
-  PowerControlResponse
+  PowerControlResponse,
+  ForgotPasswordResponse,
+  AuthOTPResponse,
+  ResendOTPResponse,
+  PasswordResetResponse
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

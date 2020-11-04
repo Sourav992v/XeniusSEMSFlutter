@@ -213,4 +213,45 @@ class _$AuthenticationService extends AuthenticationService {
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<PowerControlResponse, PowerControlResponse>($request);
   }
+
+  @override
+  Future<Response<ForgotPasswordResponse>> getForgotPassword(
+      String login_id, String mobile_no) {
+    final $url = 'forget_password';
+    final $params = <String, dynamic>{
+      'login_id': login_id,
+      'mobile_no': mobile_no
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client
+        .send<ForgotPasswordResponse, ForgotPasswordResponse>($request);
+  }
+
+  @override
+  Future<Response<AuthOTPResponse>> getAuthOTP(String login_id, String otp) {
+    final $url = 'otp_varify';
+    final $params = <String, dynamic>{'login_id': login_id, 'otp': otp};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<AuthOTPResponse, AuthOTPResponse>($request);
+  }
+
+  @override
+  Future<Response<ResendOTPResponse>> getOTP(String login_id) {
+    final $url = 'resend_otp';
+    final $params = <String, dynamic>{'login_id': login_id};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<ResendOTPResponse, ResendOTPResponse>($request);
+  }
+
+  @override
+  Future<Response<PasswordResetResponse>> getPasswordReset(
+      String login_id, String password) {
+    final $url = 'password_change';
+    final $params = <String, dynamic>{
+      'login_id': login_id,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<PasswordResetResponse, PasswordResetResponse>($request);
+  }
 }

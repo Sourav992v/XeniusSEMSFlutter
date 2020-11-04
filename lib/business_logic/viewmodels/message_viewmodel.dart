@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:built_collection/built_collection.dart';
+
 import 'package:chopper/chopper.dart';
 import 'package:xeniusapp/business_logic/enum/viewstate.dart';
 import 'package:xeniusapp/business_logic/models/message_response/message_response.dart';
-import 'package:xeniusapp/business_logic/models/notice_response/notice_resource.dart';
 
-import 'package:xeniusapp/business_logic/models/notice_response/notice_response.dart';
 
 import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 

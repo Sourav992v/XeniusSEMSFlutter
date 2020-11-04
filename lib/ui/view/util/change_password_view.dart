@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
@@ -23,7 +24,8 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   final TextEditingController confirmPassword = TextEditingController();
 
-  bool _validate = false;
+  bool _progressIndicator = false;
+  bool _errorText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                     hintText: 'Password',
                     hintStyle: TextStyle(color: Colors.blueGrey),
+                    suffixIcon: _errorText ? Icon(Icons.error, color: Colors.redAccent,): null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -103,7 +106,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
                     prefixIcon: Icon(Icons.lock),
                     hintText: 'Confirm Password',
-                    errorText: _validate ? 'Input Mismatch' : null,
+                    suffixIcon: _errorText ? Icon(Icons.error, color: Colors.redAccent,): null,
                     hintStyle: TextStyle(color: Colors.blueGrey),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -118,82 +121,74 @@ class _ChangePasswordState extends State<ChangePassword> {
                   height: 20.0,
                 ),
                 Builder(
-                  builder: (context) => RaisedButton(
-                      padding: EdgeInsets.all(16.0),
-                      elevation: 5.0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0)),
-                      textColor: Colors.white,
-                      color: kColorPrimary,
-                      highlightElevation: 16.0,
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                            fontSize: 14.0, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        SharedPreferences sharedPreferences =
-                            await SharedPreferences.getInstance();
-                        String loginId =
-                            sharedPreferences.getString('login_id') ?? '';
-                        String password =
-                            sharedPreferences.getString('password') ?? '';
+                  builder: (context) => Stack(
+                    alignment: Alignment.center,
+                    children: [ButtonTheme(
+                      minWidth: 200.0,
+                      child: RaisedButton.icon(
+                          padding: EdgeInsets.all(16.0),
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0)),
+                          textColor: Colors.white,
+                          color: kColorPrimary,
+                          icon: _progressIndicator?Icon(null):Icon(Icons.navigate_next),
+                          highlightElevation: 16.0,
+                          label: _progressIndicator?Text(''):Text(
+                            'Submit',
+                            style: TextStyle(
+                                fontSize: 14.0, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () async {
+                            FocusScope.of(context).unfocus();
+                            SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                            String loginId =
+                                sharedPreferences.getString('login_id') ?? '';
+                            String password =
+                                sharedPreferences.getString('password') ?? '';
+                            if(changePassword.text.isNotEmpty && confirmPassword.text.isNotEmpty) {
+                              setState(() {
+                                _progressIndicator = true;
+                                _errorText = false;
+                              });
+                              if (changePassword.text == confirmPassword.text) {
 
-                        if (changePassword.text == confirmPassword.text) {
-                          setState(() {
-                            _validate = false;
-                          });
-                          var result = await _authenticationService.setPasswordChange(
-                              loginId, password, confirmPassword.text);
-                          if (result.body.rc != 0) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              content: Text(
-                                'Error!',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              backgroundColor: kColorPrimaryDark,
-                            ));
-                          } else {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                              content: Text(
-                                'Logging out!!',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                              backgroundColor: Colors.blueAccent,
-                            ));
-                            Future.delayed(Duration(seconds: 2), (){
-                              Navigator.of(context)
-                                  .pushReplacementNamed(LoginView.id);
-                            });
+                                var result = await _authenticationService
+                                    .setPasswordChange(
+                                    loginId, password, confirmPassword.text);
+                                if (result.body.rc != 0) {
+                                  snackBar('Error!');
+                                } else {
 
-                          }
-                        } else {
+                                  snackBar('Logging out!!');
+                                  Future.delayed(Duration(seconds: 2), () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(LoginView.id);
+                                  });
+                                }
+                              } else {
+                                setState(() {
 
-                          setState(() {
-                            _validate = true;
-                          });
-                          _scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text(
-                              'Input Mismatch!',
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                            backgroundColor: kColorPrimaryDark,
-                          ));
-                        }
-                      }),
+                                  _progressIndicator = false;
+                                  _errorText = true;
+                                });
+                                snackBar('Input Mismatch!');
+                              }
+                            }else{
+                              setState(() {
+                                _progressIndicator = false;
+                                _errorText = true;
+                                snackBar('Invalid Input!');
+                              });
+                            }
+                          }),
+                    ),
+                      Positioned(child: _progressIndicator?
+                      SpinKitFadingCircle(size: 48, color: Colors.white,)
+                          :Container()),
+                  ],
+                  ),
                 ),
               ],
             ),
@@ -201,5 +196,19 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ),
     );
+
+  }
+  void snackBar(String text) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'Lato',
+          fontWeight: FontWeight.bold,
+          fontSize: 14.0,
+        ),
+      ),
+      backgroundColor: kColorPrimaryDark,
+    ));
   }
 }

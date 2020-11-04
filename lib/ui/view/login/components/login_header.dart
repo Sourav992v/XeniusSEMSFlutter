@@ -37,7 +37,6 @@ class LoginHeader extends StatefulWidget {
 class _LoginHeaderState extends State<LoginHeader> {
   bool _obscureText = true;
 
-
   String _connectivityStatus;
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectionSubscription;
@@ -196,25 +195,32 @@ class _LoginHeaderState extends State<LoginHeader> {
                                         widget.passwordController.text);
                                     userPref.setBool('login', true);
 
-                                    String fcmToken = userPref.getString('fcmToken') ?? '';
+                                    String fcmToken =
+                                        userPref.getString('fcmToken') ?? '';
 
-                                    var success = await model.authUser(fcmToken, 'ANDROID');
+                                    var success = await model.authUser(
+                                        fcmToken, 'ANDROID');
 
                                     if (success.body.rc == 0) {
-                                      var loginCount = await model.setLoginCount(1);
+                                      var loginCount =
+                                          await model.setLoginCount(1);
 
-                                        if(loginCount.body.resource.login_count == '0'){
-                                          Navigator.pushNamed(context,ChangePassword.id);
-
-                                        }else {
-                                          Navigator.of(context)
-                                              .pushNamedAndRemoveUntil(Home.id,
-                                                  (
-                                                  Route<dynamic> route) => false);
-                                        }
-
-
-
+                                      if (loginCount
+                                              .body.resource.login_count ==
+                                          '0') {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                                  return ChangePassword();
+                                                },
+                                                fullscreenDialog: true));
+                                      } else {
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                Home.id,
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                      }
                                     } else {
                                       Scaffold.of(context)
                                           .showSnackBar(SnackBar(
@@ -236,8 +242,14 @@ class _LoginHeaderState extends State<LoginHeader> {
                               ),
                               FlatButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed(PasswordInput.id);
+
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) {
+                                            return PasswordInput();
+                                          },
+                                          fullscreenDialog: true));
+
                                 },
                                 child: Text(
                                   "Forgot Password?",
