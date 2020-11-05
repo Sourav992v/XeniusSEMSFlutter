@@ -14,7 +14,6 @@ import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 
 import 'package:xeniusapp/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:xeniusapp/ui/view/fortgot_password/password_input_view.dart';
 
 import 'base_viewmodel.dart';
 
@@ -84,9 +83,7 @@ class ResetPasswordViewModel extends BaseViewModel {
     }
   }
 
-  Future<Response<PasswordResetResponse>> setPassword(String password) async {
-    SharedPreferences userPref = await SharedPreferences.getInstance();
-    String loginId = userPref.getString('login_id');
+  Future<Response<PasswordResetResponse>> setPassword(String loginId, String password) async {
 
     setState(ViewState.Busy);
 

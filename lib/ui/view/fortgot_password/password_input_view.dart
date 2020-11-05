@@ -30,6 +30,8 @@ class _PasswordInputState extends State<PasswordInput> {
   bool _progressIndicator = false;
   bool _errorText = false;
 
+  String buttonText = 'Next';
+
   @override
   Widget build(BuildContext context) {
     return BaseView<ResetPasswordViewModel>(
@@ -117,7 +119,7 @@ class _PasswordInputState extends State<PasswordInput> {
                     children: [
 
                       ButtonTheme(
-                        minWidth: 200.0,
+                        minWidth: 250.0,
                         child: RaisedButton.icon(
                         padding: EdgeInsets.all(16.0),
                         elevation: 5.0,
@@ -128,7 +130,7 @@ class _PasswordInputState extends State<PasswordInput> {
                         highlightElevation: 16.0,
                         icon: _progressIndicator?Icon(null):Icon(Icons.navigate_next),
                         label: _progressIndicator?Text(''):Text(
-                          'Next',
+                          buttonText,
                           style: TextStyle(
                               fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
@@ -141,14 +143,23 @@ class _PasswordInputState extends State<PasswordInput> {
                             });
                             var response = await value.getPassword(loginIdEditText.text.trim(), mobileNoEditText.text.trim());
                             if(value.state == ViewState.Idle){
-                              _progressIndicator = false;
+                              setState(() {
+                                _progressIndicator = false;
+                                buttonText = 'Please wait ...';
+                              });
+
                               if(response.body.rc == 0){
                                 Navigator.of(context)
                                     .pushReplacementNamed(PasswordResetOtp.id,
                                     arguments:ScreenArguments(message:response.body.message, loginId: loginIdEditText.text.trim()));
                               }else{
-                                snackBar('Please enter valid credentials!');
-                                _errorText = true;
+                                snackBar('${response.body.message}');
+                                setState(() {
+                                  _errorText = true;
+                                  _progressIndicator= false;
+                                  buttonText = 'Next';
+                                });
+
                               }
 
                             }

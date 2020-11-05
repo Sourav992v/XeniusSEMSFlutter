@@ -36,6 +36,7 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
 
   bool hasError = false;
   String currentText = '';
+  String _buttonText = 'Next';
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -186,11 +187,12 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                             highlightElevation: 16.0,
                             icon: _progressIndicator?Container():Icon(Icons.navigate_next),
                             label: _progressIndicator?Text(''):Text(
-                              'Next',
+                              _buttonText,
                               style: TextStyle(
                                   fontSize: 14.0, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () async{
+                              FocusScope.of(context).unfocus();
                               setState(() {
                                 _progressIndicator = true;
                               });
@@ -205,12 +207,16 @@ class _PasswordResetOtpState extends State<PasswordResetOtp> {
                                   if (response.body.rc == 0) {
                                     setState(() {
                                       _progressIndicator = false;
+                                      _buttonText = 'Please wait ...';
                                     });
                                     Navigator.of(context)
-                                        .pushReplacementNamed(ResetPassword.id);
+                                        .pushReplacementNamed(ResetPassword.id,arguments: ScreenArguments(loginId: loginId));
                                   } else {
                                     snackBar(
-                                        'Something went wrong. Please try again!');
+                                        '${response.body.message}');
+                                    setState(() {
+                                      _progressIndicator = false;
+                                    });
                                   }
                                 } else {
                                   setState(() {
