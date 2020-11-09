@@ -27,19 +27,28 @@ class _ComparativeReportViewState extends State<ComparativeReportView> {
   int month = DateTime.now().toLocal().month;
   int year = DateTime.now().toLocal().year;
 
+  bool _disposed = false;
+
   @override
   void initState() {
     initDailyChart(year, month);
     super.initState();
+  }
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   void initDailyChart(int year, int month) {
     comparativeReportViewModel
         .getComparativeReportResponse(year, month)
         .then((value) {
-      setState(() {
-        comparativeReport = value.body;
-      });
+          if(!_disposed) {
+            setState(() {
+              comparativeReport = value.body;
+            });
+          }
     });
   }
 

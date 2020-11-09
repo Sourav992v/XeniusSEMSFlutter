@@ -25,13 +25,27 @@ class _RechargeViewState extends State<RechargeView>
   LoginResource loginResource;
   LoginViewModel loginModel = locator<LoginViewModel>();
 
+  bool _disposed = false;
+
   @override
   void initState() {
-    loginModel.login().then((value) {setState(() {
-      loginResource = value.body;
-    });});
+
+      loginModel.login().then((value) {
+        if(!_disposed) {
+          setState(() {
+            loginResource = value.body;
+          });
+        }
+      });
+
     _controller = TabController(length: 2, vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+   _disposed=true;
+    super.dispose();
   }
 
   @override

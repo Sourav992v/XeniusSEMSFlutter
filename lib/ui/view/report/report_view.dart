@@ -1,6 +1,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xeniusapp/business_logic/models/current_applicable_rates/current_applicable_resource.dart';
+import 'package:xeniusapp/business_logic/models/login_resource.dart';
 import 'package:xeniusapp/business_logic/models/resource.dart';
 import 'package:xeniusapp/business_logic/viewmodels/current_tariff_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/home_viewmodel.dart';
@@ -19,27 +21,42 @@ class ReportView extends StatefulWidget {
 }
 
 class _ReportViewState extends State<ReportView> {
+
+  bool _disposed = false;
+
   HomeViewModel model = locator<HomeViewModel>();
   CurrentTariffViewModel currentTariffViewModel =
       locator<CurrentTariffViewModel>();
 
   BuiltList<CurrentApplicableResource> currentApplicableResource;
-  Resource resource;
+  LoginResource resource;
 
   @override
   void initState() {
-    model.getLoginResource().then((value) {
-      setState(() {
-        resource = value.body.resource;
-      });
-    });
 
-    currentTariffViewModel.getCurrentTariff().then((value) {
-      setState(() {
-        currentApplicableResource = value.body.resource;
+
+      model.getLoginResource().then((value) {
+        if(!_disposed) {
+          setState(() {
+            resource = value.body;
+          });
+        }
       });
-    });
+
+      currentTariffViewModel.getCurrentTariff().then((value) {
+        if(!_disposed) {
+          setState(() {
+            currentApplicableResource = value.body.resource;
+          });
+        }
+      });
+
     super.initState();
+  }
+  @override
+  void dispose() {
+    _disposed= true;
+    super.dispose();
   }
 
   @override
@@ -48,7 +65,7 @@ class _ReportViewState extends State<ReportView> {
       backgroundColor: Colors.transparent,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        child: ReportViewCard(currentApplicable: currentApplicableResource),
+        child: ReportViewCard(currentApplicable: currentApplicableResource,resource:resource),
       ),
     );
   }
@@ -56,8 +73,9 @@ class _ReportViewState extends State<ReportView> {
 
 class ReportViewCard extends StatelessWidget {
   final BuiltList<CurrentApplicableResource> currentApplicable;
+  final LoginResource resource;
 
-  const ReportViewCard({Key key, this.currentApplicable}) : super(key: key);
+  const ReportViewCard({Key key, this.currentApplicable, this.resource}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -283,7 +301,7 @@ class ReportViewCard extends StatelessWidget {
                   }),
             ),
           ),
-          Container(
+          resource !=null && resource.resource.monthly_bill_enable == 'Y' ?Container(
             height: 96.0,
             child: Card(
               elevation: 16.0,
@@ -304,9 +322,117 @@ class ReportViewCard extends StatelessWidget {
                     style: kLabelTextStyle,
                   ),
                 ),
+                onTap: (){
+                  showModalBottomSheet(
+
+                      context: context,
+                      elevation: 5.0,
+                      backgroundColor: Colors.transparent,
+                      builder: (builder) {
+                        return Wrap(children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                  top: 2.0,
+                                  left: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0),
+                              decoration: BoxDecoration(
+
+                                  color: Colors.white,
+
+                                  boxShadow: [
+                                    //background color of box
+                                    BoxShadow(
+                                      color: kColorPrimaryDark,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(12.0),
+                                      topRight: const Radius.circular(12.0))),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 48, vertical: 24),
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 8.0,
+                                      ),
+                                      width: 72.0,
+                                      height: 2.0,
+                                      color: Colors.blueGrey.shade100,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Container(
+                                      height:
+                                      MediaQuery.of(context).size.height *
+                                          0.3,
+                                      child: GridView.count(
+                                        crossAxisCount: 2,
+
+                                        children:
+                                          List.generate(int.parse(resource.resource.monthly_bill_no_of_month), (index){ return Container(
+                                            margin: EdgeInsets.all(24.0),
+                                            color: Colors.white70,
+                                            child: GestureDetector(
+                                              onTap: () {
+
+                                              },
+                                              child: Container(
+                                                  height: 72.0,
+                                                  width: 48.0,
+                                                  color: Colors.white,
+                                                  child: Card(
+                                                    elevation: 16.0,
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          height: 24.0,
+                                                          width: 32.0,
+                                                          color: Colors.white,
+                                                          child: Center(child: Text('12')),
+                                                        ),
+                                                        Container(
+                                                          height: 24.0,
+                                                          width: 48.0,
+                                                          color: Colors.blueAccent,
+                                                          child: Center(
+                                                              child: Text(
+                                                                '21',
+                                                                style: TextStyle(color: Colors.white),
+                                                              )),
+                                                        ),
+                                                        Container(
+                                                          height: 24.0,
+                                                          width: 48.0,
+                                                          color: Colors.white,
+                                                          child: Center(
+                                                              child: Text(
+                                                                '2020',
+                                                                style: TextStyle(color: Colors.black),
+                                                              )),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                            ),
+                                          );}),
+
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ]);
+                      });
+                },
               ),
             ),
-          ),
+          ): Container(),
         ],
       ),
     );
