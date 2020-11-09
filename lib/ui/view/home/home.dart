@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                 background: Container(
                   height: 96,
                   child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(48.0),
                     child: Image.asset(
                       'assets/images/ic_xenius_logo.png',
                       fit: BoxFit.contain,

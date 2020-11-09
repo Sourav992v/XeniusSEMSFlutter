@@ -136,6 +136,8 @@ abstract class AuthenticationService extends ChopperService {
 
   @Get(path: 'recharge')
   Future<Response<CouponRechargeResponse>> getCouponRecharge(
+      @Query('login_id') String loginId,
+      @Query('password') String password,
       @Query('coupon_id') String coupon_id
       );
 

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:xeniusapp/business_logic/viewmodels/comparative_report_viewmodel.dart';
+import 'package:xeniusapp/business_logic/viewmodels/coupon_recaharge_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/current_tariff_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/daily_report_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/recharge_history_viewmodel.dart';
@@ -31,4 +32,5 @@ void setupLoactor() {
   locator.registerFactory(() => RechargeHistoryViewModel());
   locator.registerFactory(() => SetConfigViewModel());
   locator.registerFactory(() => ResetPasswordViewModel());
+  locator.registerFactory(() => CouponRechargeViewModel());
 }

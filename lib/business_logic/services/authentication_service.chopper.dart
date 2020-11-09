@@ -186,9 +186,14 @@ class _$AuthenticationService extends AuthenticationService {
   }
 
   @override
-  Future<Response<CouponRechargeResponse>> getCouponRecharge(String coupon_id) {
+  Future<Response<CouponRechargeResponse>> getCouponRecharge(
+      String loginId, String password, String coupon_id) {
     final $url = 'recharge';
-    final $params = <String, dynamic>{'coupon_id': coupon_id};
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password,
+      'coupon_id': coupon_id
+    };
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client
         .send<CouponRechargeResponse, CouponRechargeResponse>($request);

@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:io' show Platform;
+
+import 'package:flutter/cupertino.dart';
 
 import 'package:connectivity/connectivity.dart';
 
@@ -6,7 +9,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:xeniusapp/business_logic/viewmodels/auth_viewmodel.dart';
-import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
+
 import 'package:xeniusapp/components/check_box.dart';
 import 'package:xeniusapp/components/rouded_button.dart';
 import 'package:xeniusapp/components/rounded_input_field.dart';
@@ -101,6 +104,8 @@ class _LoginHeaderState extends State<LoginHeader> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    String platform = Platform.isIOS ? 'IOS':'ANDROID';
     return BaseView<AuthViewModel>(
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
@@ -171,7 +176,7 @@ class _LoginHeaderState extends State<LoginHeader> {
                                 press: () async {
                                   FocusScope.of(context).unfocus();
 
-                                  if (_connectivityStatus ==
+                                  if (_connectivityStatus !=
                                           'ConnectivityResult.mobile' ||
                                       _connectivityStatus !=
                                           'ConnectivityResult.wifi') {
@@ -199,7 +204,7 @@ class _LoginHeaderState extends State<LoginHeader> {
                                         userPref.getString('fcmToken') ?? '';
 
                                     var success = await model.authUser(
-                                        fcmToken, 'ANDROID');
+                                        fcmToken, platform);
 
                                     if (success.body.rc == 0) {
                                       var loginCount =

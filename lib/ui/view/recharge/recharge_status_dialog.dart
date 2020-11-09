@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xeniusapp/constants.dart';
+import 'package:xeniusapp/ui/view/util/dimen.dart';
 
 class RechargeDialog extends StatelessWidget {
   final String title, description, buttonText;
@@ -14,11 +16,11 @@ class RechargeDialog extends StatelessWidget {
       ),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      child: diallogContent(context),
+      child: dialogContent(context),
     );
   }
 
-  diallogContent(BuildContext context) {
+  dialogContent(BuildContext context) {
     return Stack(children: [
       Container(
         padding: EdgeInsets.only(
@@ -72,13 +74,17 @@ class RechargeDialog extends StatelessWidget {
         ),
       ),
       Positioned(
+        top: Dimension.padding,
         left: Consts.padding,
         right: Consts.padding,
         child: CircleAvatar(
-          backgroundColor: Colors.blueAccent,
-          radius: Consts.avatarRadius,
+          backgroundColor: Colors.white,
+          radius: Dimension.avatarRadius,
+          child: title == 'Success' ? Icon(Icons.check_circle, size: 128.0, color: Colors.green,)
+              :Icon(Icons.error, size: 128.0, color: kColorAccentRed,),
+        )
         ),
-      ),
+
     ]);
   }
 }
@@ -87,5 +93,5 @@ class Consts {
   Consts._();
 
   static const double padding = 16.0;
-  static const double avatarRadius = 66.0;
+  static const double avatarRadius = 64.0;
 }

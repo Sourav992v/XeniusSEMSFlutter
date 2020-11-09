@@ -5,6 +5,8 @@ import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:xeniusapp/components/rouded_button_recharge.dart';
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
+import 'package:xeniusapp/ui/view/fortgot_password/screen_arguments.dart';
+import 'package:xeniusapp/ui/view/recharge/coupon_recharge_view.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_history/recharge_history_view.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_status_dialog.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_webview_dialog.dart';
@@ -157,22 +159,27 @@ class _RechargeViewState extends State<RechargeView>
                 Wrap(
 
                   children: [
-                    RechargeWidget(
+                    if(loginResource != null )
+                      RechargeWidget(
                       rechargeType: 'Coupon',
                       image: AssetImage('assets/images/ic_coupon_icon.png'),
-                    ),
+                      loginId:'${loginResource.resource.location_id}',)
+                    else Container(width: 0, height: 0),
 
                     if (loginResource != null && loginResource.resource.pg_enable_hdfc == 'Y') RechargeWidget(
                       rechargeType: 'HDFC',
-                      image: AssetImage('assets/images/ic_hdfc.png'),
+                      image: AssetImage('assets/images/ic_hdfc.png',
+                      ),
                     ) else Container(width: 0, height: 0),
                     if (loginResource != null && loginResource.resource.pg_enable_paytm == 'Y') RechargeWidget(
                       rechargeType: 'Paytm',
                       image: AssetImage('assets/images/ic_paytm.png'),
+                        url: loginResource.resource.paytmMobileUrl + loginResource.resource.location_id,
                     ) else Container(width: 0, height: 0,),
                     if (loginResource != null && loginResource.resource.pg_enable_mobikwik == 'Y') RechargeWidget(
                       rechargeType: 'Mobikwik',
                       image: AssetImage('assets/images/ic_mobikwik.png'),
+                        url: loginResource.resource.mobikwik_mobile_url + loginResource.resource.location_id,
                     ) else Container(width: 0, height: 0),
                   ],
                 ),
@@ -443,17 +450,37 @@ class RechargeWidget extends StatelessWidget {
   const RechargeWidget({
     Key key,
     this.rechargeType,
-    this.image,
+    this.image, this.url, this.loginId,
   }) : super(key: key);
 
   final String rechargeType;
   final AssetImage image;
+  final String url;
+  final String loginId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
+        if(rechargeType != 'Coupon' && rechargeType != 'HDFC') {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) {
+                  return RechargeProgressDialog(
+                      url: url);
+                },
+                fullscreenDialog: true),
+          );
+        }else if(rechargeType == 'Coupon'){
+          Navigator.of(context).push(MaterialPageRoute<Null>(
+              builder: (BuildContext context) {
+                return CouponRechargeView(loginId: loginId);
+              },
+              fullscreenDialog: true));
+          /*Navigator.of(context)
+              .pushReplacementNamed(CouponRechargeView.id,
+              arguments:ScreenArguments(loginId: loginId));*/
+        }
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 12.0),
