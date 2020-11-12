@@ -14,6 +14,8 @@ const kChartGridAmount = Color(0xFF5FA3E0);
 const kChartDGUnit = Color(0xFFBE3142);
 const kChartDGAMount = Color(0xFFFF6378);
 
+const String base_url = 'http://myxenius.com/thirdparty/api';
+
 const kLabelTextStyle = TextStyle(
     fontSize: 14.0,
     fontFamily: 'Lato',

@@ -25,6 +25,7 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
 
   List<String> dateStringValue = [];
   MonthlyReport monthlyReport;
+  bool _disposed = false;
 
   @override
   void initState() {
@@ -35,9 +36,16 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
   void initMonthlyChart(int year) {
     _viewModel.getMonthlyReportResponse(year).then((value) {
       setState(() {
-        monthlyReport = value.body;
+        if(!_disposed) {
+          monthlyReport = value.body;
+        }
       });
     });
+  }
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   void _date(int month, int year) {

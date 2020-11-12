@@ -176,24 +176,9 @@ class _LoginHeaderState extends State<LoginHeader> {
                                 press: () async {
                                   FocusScope.of(context).unfocus();
 
-                                  if (_connectivityStatus !=
-                                          'ConnectivityResult.mobile' ||
-                                      _connectivityStatus !=
-                                          'ConnectivityResult.wifi') {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text(
-                                        'No Internet!',
-                                        style: TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12.0,
-                                        ),
-                                      ),
-                                      backgroundColor: kColorPrimaryDark,
-                                    ));
-                                  } else {
+
                                     SharedPreferences userPref =
-                                        await SharedPreferences.getInstance();
+                                    await SharedPreferences.getInstance();
                                     userPref.setString('login_id',
                                         widget.loginIdController.text);
                                     userPref.setString('password',
@@ -208,10 +193,10 @@ class _LoginHeaderState extends State<LoginHeader> {
 
                                     if (success.body.rc == 0) {
                                       var loginCount =
-                                          await model.setLoginCount(1);
+                                      await model.setLoginCount(1);
 
                                       if (loginCount
-                                              .body.resource.login_count ==
+                                          .body.resource.login_count ==
                                           '0') {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
@@ -222,9 +207,9 @@ class _LoginHeaderState extends State<LoginHeader> {
                                       } else {
                                         Navigator.of(context)
                                             .pushNamedAndRemoveUntil(
-                                                Home.id,
+                                            Home.id,
                                                 (Route<dynamic> route) =>
-                                                    false);
+                                            false);
                                       }
                                     } else {
                                       Scaffold.of(context)
@@ -240,7 +225,8 @@ class _LoginHeaderState extends State<LoginHeader> {
                                         backgroundColor: kColorPrimaryDark,
                                       ));
                                     }
-                                  }
+
+
                                 },
                                 color: kColorAccentRed,
                                 textColor: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
@@ -23,9 +24,14 @@ import 'package:xeniusapp/ui/view/util/notification_settings.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+
+const debug = true;
+
+void main() async{
   setupLoactor();
   _setUpLogging();
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: debug);
   runApp(XeniusApp());
 }
 

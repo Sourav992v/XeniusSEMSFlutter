@@ -25,17 +25,25 @@ class _DailyReportViewState extends State<DailyReportView> {
   int day = DateTime.now().toLocal().day;
   int month = DateTime.now().toLocal().month;
   int year = DateTime.now().toLocal().year;
+  bool _disposed = false;
 
   @override
   void initState() {
     initDailyChart(year, month);
     super.initState();
   }
+  @override
+  void dispose() {
+    _disposed= true;
+    super.dispose();
+  }
 
   void initDailyChart(int year, int month) {
     dailyReportViewModel.getDailyReportResource(year, month).then((value) {
       setState(() {
-        dailyReportResponse = value.body;
+        if(!_disposed) {
+          dailyReportResponse = value.body;
+        }
       });
     });
   }
