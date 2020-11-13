@@ -3,10 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:xeniusapp/business_logic/models/login_resource.dart';
 import 'package:xeniusapp/business_logic/services/authentication_service.dart';
 import 'package:xeniusapp/business_logic/viewmodels/login_viewmodel.dart';
+import 'package:xeniusapp/business_logic/viewmodels/power_control_viewmodel.dart';
 
 
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
+import 'package:xeniusapp/ui/view/profile/status_dialog.dart';
 
 import 'package:xeniusapp/ui/view/util/change_password_view.dart';
 
@@ -19,16 +21,25 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
   bool isExpanded = false;
   LoginResource loginResource;
   LoginViewModel model = locator<LoginViewModel>();
-  AuthenticationService _authenticationService = locator<AuthenticationService>();
+  PowerViewModel powerViewModel = locator<PowerViewModel>();
 
+  bool _disposed = false;
   @override
   void initState() {
     model.login().then((value) {
       setState(() {
-       loginResource = value.body;
+        if(!_disposed) {
+          loginResource = value.body;
+        }
       });
     });
+    
     super.initState();
+  }
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 
   @override
@@ -178,6 +189,31 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                         Icons.restore,
                                         color: Colors.greenAccent[400],
                                       ),
+                                      onTap: () async{
+                                        var response = await powerViewModel.getPowerControl('restore');
+                                        if(response.body.rc == 0){
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => StatusDialog(
+                                              title: 'Success',
+                                              description:
+                                              '${response.body.message}',
+                                              buttonText: "Okay",
+                                            ),
+                                          );
+                                        }else{
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => StatusDialog(
+                                              title: 'Error',
+                                              description:
+                                              '${response.body.message}',
+                                              buttonText: "Okay",
+                                            ),
+                                          );
+                                        }
+                                        
+                                      },
                                     ),
                                   ),
                                   Padding(
@@ -188,7 +224,33 @@ class _UserProfileDialogState extends State<UserProfileDialog> {
                                         Icons.check_box,
                                         color: Colors.greenAccent[400],
                                       ),
-                                    ),
+                                      onTap: () async {
+                                        var response = await powerViewModel
+                                            .getPowerControl('validate_balance');
+                                        if (response.body.rc == 0) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                StatusDialog(
+                                                  title: 'Success',
+                                                  description:
+                                                  '${response.body.message}',
+                                                  buttonText: "Okay",
+                                                ),
+                                          );
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                StatusDialog(
+                                                  title: 'Error',
+                                                  description:
+                                                  '${response.body.message}',
+                                                  buttonText: "Okay",
+                                                ),
+                                          );
+                                        }
+                                      } ),
                                   ),
                                 ],
                               ),

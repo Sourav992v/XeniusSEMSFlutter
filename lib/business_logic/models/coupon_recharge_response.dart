@@ -5,6 +5,7 @@ part 'coupon_recharge_response.g.dart';
 
 abstract class CouponRechargeResponse
     implements Built<CouponRechargeResponse, CouponRechargeResponseBuilder> {
+
   @nullable
   int get rc;
 

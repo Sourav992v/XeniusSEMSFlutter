@@ -3,6 +3,7 @@ import 'package:xeniusapp/business_logic/viewmodels/comparative_report_viewmodel
 import 'package:xeniusapp/business_logic/viewmodels/coupon_recaharge_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/current_tariff_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/daily_report_viewmodel.dart';
+import 'package:xeniusapp/business_logic/viewmodels/power_control_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/recharge_history_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/reset_password_viewmodel.dart';
 import 'package:xeniusapp/business_logic/viewmodels/set_config_viewmodel.dart';
@@ -33,4 +34,5 @@ void setupLoactor() {
   locator.registerFactory(() => SetConfigViewModel());
   locator.registerFactory(() => ResetPasswordViewModel());
   locator.registerFactory(() => CouponRechargeViewModel());
+  locator.registerFactory(() => PowerViewModel());
 }

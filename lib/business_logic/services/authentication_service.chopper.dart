@@ -213,9 +213,14 @@ class _$AuthenticationService extends AuthenticationService {
   }
 
   @override
-  Future<Response<PowerControlResponse>> getPowerControl(String controlString) {
+  Future<Response<PowerControlResponse>> getPowerControl(
+      String loginId, String password, String controlString) {
     final $url = '$controlString';
-    final $request = Request('GET', $url, client.baseUrl);
+    final $params = <String, dynamic>{
+      'login_id': loginId,
+      'password': password
+    };
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<PowerControlResponse, PowerControlResponse>($request);
   }
 

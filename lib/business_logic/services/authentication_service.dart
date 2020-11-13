@@ -149,6 +149,8 @@ abstract class AuthenticationService extends ChopperService {
 
   @Get(path: '{power_control}')
   Future<Response<PowerControlResponse>> getPowerControl(
+      @Query('login_id') String loginId,
+      @Query('password') String password,
       @Path('power_control') String controlString
       );
 
