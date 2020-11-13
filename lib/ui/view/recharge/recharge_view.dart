@@ -11,6 +11,8 @@ import 'package:xeniusapp/ui/view/recharge/recharge_history/recharge_history_vie
 import 'package:xeniusapp/ui/view/recharge/recharge_status_dialog.dart';
 import 'package:xeniusapp/ui/view/recharge/recharge_webview_dialog.dart';
 
+import 'hdfc_recharge_view.dart';
+
 enum SingingCharacter { grid, dg }
 
 class RechargeView extends StatefulWidget {
@@ -182,8 +184,8 @@ class _RechargeViewState extends State<RechargeView>
 
                     if (loginResource != null && loginResource.resource.pg_enable_hdfc == 'Y') RechargeWidget(
                       rechargeType: 'HDFC',
-                      image: AssetImage('assets/images/ic_hdfc.png',
-                      ),
+                      image: AssetImage('assets/images/ic_hdfc.png',),
+                      loginResource: loginResource,
                     ) else Container(width: 0, height: 0),
                     if (loginResource != null && loginResource.resource.pg_enable_paytm == 'Y') RechargeWidget(
                       rechargeType: 'Paytm',
@@ -464,13 +466,14 @@ class RechargeWidget extends StatelessWidget {
   const RechargeWidget({
     Key key,
     this.rechargeType,
-    this.image, this.url, this.loginId,
+    this.image, this.url, this.loginId, this.loginResource,
   }) : super(key: key);
 
   final String rechargeType;
   final AssetImage image;
   final String url;
   final String loginId;
+  final LoginResource loginResource;
 
   @override
   Widget build(BuildContext context) {
@@ -494,6 +497,12 @@ class RechargeWidget extends StatelessWidget {
           /*Navigator.of(context)
               .pushReplacementNamed(CouponRechargeView.id,
               arguments:ScreenArguments(loginId: loginId));*/
+        }else{
+          Navigator.of(context).push(MaterialPageRoute<Null>(
+              builder: (BuildContext context) {
+                return HDFCRechargeView(loginResource: loginResource);
+              },
+              fullscreenDialog: true));
         }
       },
       child: Container(
