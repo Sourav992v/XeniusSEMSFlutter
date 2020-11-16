@@ -93,7 +93,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   TextField(
 
                     controller: confirmEditText,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.text,
                     obscureText: true,
 
                     decoration: InputDecoration(

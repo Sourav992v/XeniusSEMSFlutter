@@ -88,47 +88,50 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      margin: EdgeInsets.only(top: 0.0, bottom: 4.0),
-      color: kColorAccentRed,
-      clipBehavior: Clip.antiAlias,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-                Text(
-                  'Available Balance',
-                  style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.normal),
-                ),
-                SizedBox(height: 4.0,),
-                Text(
-                  'INR ${resource.balance_amount}',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0,fontWeight: FontWeight.bold),
-                ),
-            SizedBox(height: 8.0,),
-
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+    return Container(
+      height: 96.0,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        margin: EdgeInsets.only(top: 0.0, bottom: 4.0),
+        color: kColorAccentRed,
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
                   Text(
-                    'Updated on:',
-                    style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.normal),
+                    'Available Balance',
+                    style: TextStyle(color: Colors.white, fontSize: 14.0,fontWeight: FontWeight.normal),
                   ),
-
+                  SizedBox(height: 2.0,),
                   Text(
-                    '${resource.last_reading_updated}',
+                    'INR ${resource.balance_amount}',
                     style: TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-            ),
+              SizedBox(height: 4.0,),
 
-          ],
+              Align(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Updated on:',
+                      style: TextStyle(color: Colors.white, fontSize: 12.0,fontWeight: FontWeight.normal),
+                    ),
+
+                    Text(
+                      '${resource.last_reading_updated}',
+                      style: TextStyle(color: Colors.white, fontSize: 14.0,fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );
@@ -150,7 +153,7 @@ class GridBalanceCard extends StatelessWidget {
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Row(
@@ -258,7 +261,7 @@ class DGBalanceCard extends StatelessWidget {
         color: Colors.white,
         clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Row(
