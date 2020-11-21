@@ -204,8 +204,8 @@ class _ReportViewCardState extends State<ReportViewCard> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 16.0),
-              height: 96.0,
+              margin: EdgeInsets.only(top: 12.0),
+              height: 72.0,
               child: Card(
                 elevation: 16.0,
                 shape: RoundedRectangleBorder(
@@ -236,7 +236,7 @@ class _ReportViewCardState extends State<ReportViewCard> {
               ),
             ),
             Container(
-              height: 96.0,
+              height: 72.0,
               child: Card(
                   elevation: 16.0,
                   shape: RoundedRectangleBorder(
@@ -259,7 +259,7 @@ class _ReportViewCardState extends State<ReportViewCard> {
                   )),
             ),
             Container(
-              height: 96.0,
+              height: 72.0,
               child: Card(
                 elevation: 16.0,
                 shape: RoundedRectangleBorder(
@@ -284,7 +284,7 @@ class _ReportViewCardState extends State<ReportViewCard> {
               ),
             ),
             Container(
-              height: 96.0,
+              height: 72.0,
               child: Card(
                 elevation: 16.0,
                 shape: RoundedRectangleBorder(
@@ -431,7 +431,7 @@ class _ReportViewCardState extends State<ReportViewCard> {
             widget.resource != null &&
                     widget.resource.resource.monthly_bill_enable == 'Y'
                 ? Container(
-                    height: 96.0,
+                    height: 72.0,
                     child: Card(
                       elevation: 16.0,
                       shape: RoundedRectangleBorder(

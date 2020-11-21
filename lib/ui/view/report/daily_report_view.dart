@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +9,13 @@ import 'package:xeniusapp/business_logic/viewmodels/daily_report_viewmodel.dart'
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/src/painting/text_style.dart' as textStyle;
+import 'package:flutter/src/painting/basic_types.dart' as axis;
+
+
+// ignore: implementation_imports
+import 'package:charts_flutter/src/text_style.dart' as style;
+import 'package:charts_flutter/src/text_element.dart' as textElement;
 import 'package:xeniusapp/ui/view/base_view.dart';
 
 class DailyReportView extends StatefulWidget {
@@ -26,6 +36,9 @@ class _DailyReportViewState extends State<DailyReportView> {
   int month = DateTime.now().toLocal().month;
   int year = DateTime.now().toLocal().year;
   bool _disposed = false;
+
+  static String pointerValueG;
+  static String pointerValueD;
 
   @override
   void initState() {
@@ -185,10 +198,7 @@ class _DailyReportViewState extends State<DailyReportView> {
           ),
           title: Text(
             'Daily Report',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 16.0),
+            style: textStyle.TextStyle(color: Colors.white),
           ),
           centerTitle: true,
         ),
@@ -223,9 +233,9 @@ class _DailyReportViewState extends State<DailyReportView> {
                               )),
                             ),
                             subtitle: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+                              scrollDirection: axis.Axis.horizontal,
                               child: Container(
-                                  width: 500,
+                                  width: MediaQuery.of(context).size.width,
                                   height: 300,
                                   child: charts.TimeSeriesChart(
                                     _createSampleData(index),
@@ -235,17 +245,20 @@ class _DailyReportViewState extends State<DailyReportView> {
                                       includeArea: true,
                                       stacked: false,
                                       includeLine: true,
+
                                     ),
                                     behaviors: [
                                       charts.SlidingViewport(),
                                       charts.PanAndZoomBehavior(),
                                       charts.LinePointHighlighter(
+                                        symbolRenderer: CustomCircleSymbolRenderer(),
                                           showHorizontalFollowLine: charts
                                               .LinePointHighlighterFollowLineType
                                               .all,
                                           showVerticalFollowLine: charts
                                               .LinePointHighlighterFollowLineType
                                               .nearest),
+
                                       charts.SelectNearest(
                                           eventTrigger: charts
                                               .SelectionTrigger.tapAndDrag),
@@ -254,10 +267,11 @@ class _DailyReportViewState extends State<DailyReportView> {
                                             charts.BehaviorPosition.bottom,
                                         desiredMaxRows: 2,
                                         horizontalFirst: false,
+                                        insideJustification: InsideJustification.topStart ,
                                         cellPadding: new EdgeInsets.only(
                                             right: 4.0,
                                             bottom: 4.0,
-                                            left: 96.0,
+                                            left: 164.0,
                                             top: 4.0),
                                         showMeasures: true,
                                         outsideJustification: charts
@@ -267,6 +281,24 @@ class _DailyReportViewState extends State<DailyReportView> {
                                           return value == null ? '-' : '$value';
                                         },
                                       ),
+                                    ],
+                                    selectionModels: [
+
+                                      SelectionModelConfig(
+                                          changedListener: (SelectionModel model) {
+                                            if (model.hasDatumSelection) {
+
+
+                                              pointerValueG =
+                                                  "${model.selectedSeries[0].displayName}:\n" + model.selectedSeries[0]
+                                                      .measureFn(
+                                                      model.selectedDatum[0]
+                                                          .index).toString();
+
+                                            }
+                                          }
+                                      ),
+
                                     ],
                                     domainAxis: new charts.DateTimeAxisSpec(
                                         showAxisLine: true,
@@ -317,7 +349,7 @@ class _DailyReportViewState extends State<DailyReportView> {
                   child: Center(
                       child: Text(
                     '$dateString'.split('-')[1],
-                    style: TextStyle(color: Colors.white),
+                    style: textStyle.TextStyle(color: Colors.white),
                   )),
                 ),
                 Container(
@@ -327,7 +359,7 @@ class _DailyReportViewState extends State<DailyReportView> {
                   child: Center(
                       child: Text(
                     '$dateString'.split('-')[0],
-                    style: TextStyle(color: Colors.black),
+                    style: textStyle.TextStyle(color: Colors.black),
                   )),
                 )
               ],
@@ -343,4 +375,52 @@ class ChartData {
   final double value;
 
   ChartData(this.date, this.value);
+}
+
+class CustomCircleSymbolRenderer extends charts.CircleSymbolRenderer{
+
+
+  @override
+  void paint(ChartCanvas canvas, Rectangle<num> bounds,
+      {List<int> dashPattern,
+      Color fillColor,
+      FillPatternType fillPattern,
+      Color strokeColor,
+      double strokeWidthPx}) {
+
+    super.paint(canvas, bounds, dashPattern: dashPattern, fillColor: fillColor,
+        strokeColor: strokeColor, strokeWidthPx: strokeWidthPx);
+
+    var textStyle = style.TextStyle();
+    textStyle.color = Color.black;
+    textStyle.fontSize = 16;
+    canvas.drawText(textElement.TextElement('${_DailyReportViewState.pointerValueG}',style: textStyle),
+        (bounds.left).round(), 90);
+  }
+
+
+}
+
+
+
+String _title;
+
+String _subTitle;
+
+class ToolTipMgr {
+
+  static String get title => _title;
+
+  static String get subTitle => _subTitle;
+
+  static setTitle(Map<String, dynamic> data) {
+    if (data['title'] != null && data['title'].length > 0) {
+      _title = data['title'];
+    }
+
+    if (data['subTitle'] != null && data['subTitle'].length > 0) {
+      _subTitle = data['subTitle'];
+    }
+  }
+
 }

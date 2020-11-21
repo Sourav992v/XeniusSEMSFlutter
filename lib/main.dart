@@ -2,8 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:logging/logging.dart';
-import 'package:provider/provider.dart';
-import 'package:xeniusapp/business_logic/models/comparative/comparative_report.dart';
+
 import 'package:xeniusapp/constants.dart';
 import 'package:xeniusapp/locator.dart';
 import 'package:xeniusapp/splash_screen.dart';
@@ -13,7 +12,7 @@ import 'package:xeniusapp/ui/view/fortgot_password/reset_password_view.dart';
 
 import 'package:xeniusapp/ui/view/home/home.dart';
 import 'package:xeniusapp/ui/view/login/login_view.dart';
-import 'package:xeniusapp/ui/view/profile/user_profile_dialog.dart';
+
 import 'package:xeniusapp/ui/view/recharge/coupon_recharge_view.dart';
 import 'package:xeniusapp/ui/view/report/comparative_report_view.dart';
 import 'package:xeniusapp/ui/view/report/daily_report_view.dart';
